@@ -15,7 +15,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -27,7 +27,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -35,24 +35,44 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    /**
+     * Get the student associated with the user.
+     */
+    public function student()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'role' => 'string',
-        ];
+        return $this->hasOne(Student::class);
     }
 
     /**
-     * Check if user is an admin
+     * Check if user is an admin.
      */
-    public function isAdmin(): bool
+    public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is a student.
+     */
+    public function isStudent()
+    {
+        return $this->role === 'student';
+    }
+
+    /**
+     * Check if user is an instructor.
+     */
+    public function isInstructor()
+    {
+        return $this->role === 'instructor';
     }
 }

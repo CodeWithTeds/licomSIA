@@ -20,8 +20,9 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             PositionSeeder::class,
             InstructorSeeder::class,
-            ProgramSeeder::class,
             CourseSeeder::class,
+            ProgramSeeder::class,
+            StudentSeeder::class,
         ]);
 
         User::factory()->create([
