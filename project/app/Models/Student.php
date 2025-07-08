@@ -4,13 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Student extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'student_id';
-    
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'admission_id',
         'first_name',
@@ -22,17 +26,25 @@ class Student extends Model
         'year_level',
         'status',
         'profile_complete',
-        'user_id'
+        'user_id',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'birth_date' => 'date',
         'profile_complete' => 'boolean',
     ];
 
-    public function program()
+    /**
+     * Get the program that the student is enrolled in.
+     */
+    public function program(): BelongsTo
     {
-        return $this->belongsTo(Program::class, 'program_id', 'program_id');
+        return $this->belongsTo(Program::class);
     }
 
     public function user()

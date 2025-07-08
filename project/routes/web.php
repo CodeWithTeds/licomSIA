@@ -13,8 +13,18 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/login', function () {
-    return view('login');
+// Student Routes
+Route::get('/student/register', [StudentController::class, 'showRegistrationForm'])->name('student.register');
+Route::post('/student/register', [StudentController::class, 'register'])->name('student.register.post');
+Route::get('/student/login', [StudentController::class, 'showLoginForm'])->name('student.login');
+Route::post('/student/login', [StudentController::class, 'login'])->name('student.login.post');
+
+// Student authenticated routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])
+        ->middleware('can:student')
+        ->name('student.dashboard');
+    Route::post('/student/logout', [StudentController::class, 'logout'])->name('student.logout');
 });
 
 // Admin Routes
@@ -22,23 +32,24 @@ Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('adm
 Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.post');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->middleware('can:admin')->name('admin.dashboard');
+
     Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
     
     // Instructor Routes
-    Route::resource('instructors', InstructorController::class);
+    Route::resource('instructors', InstructorController::class)->middleware('can:admin');
         
     // Course Routes
-    Route::resource('courses', CourseController::class);
+    Route::resource('courses', CourseController::class) ->middleware('can:admin');
         
     // Program Routes
-    Route::resource('programs', ProgramController::class);
+    Route::resource('programs', ProgramController::class)->middleware('can:admin');
         
     // Department Routes
-    Route::resource('departments', DepartmentController::class);
+    Route::resource('departments', DepartmentController::class)->middleware('can:admin');
         
     // Position Routes
-    Route::resource('positions', PositionController::class);
+    Route::resource('positions', PositionController::class)->middleware('can:admin');
 
     // Student profile routes
     Route::get('/student/profile', [StudentController::class, 'profile'])->name('student.profile');

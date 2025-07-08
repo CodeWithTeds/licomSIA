@@ -30,7 +30,7 @@ class AdminController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             
-            if (Auth::user()->isAdmin()) {
+            if (Auth::user()->role === 'admin') {
                 return redirect()->intended('/admin/dashboard');
             }
             

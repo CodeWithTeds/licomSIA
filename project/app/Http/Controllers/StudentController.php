@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StudentRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class StudentController extends Controller
 {
@@ -187,5 +190,135 @@ class StudentController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Profile updated successfully');
+    }
+
+    /**
+     * Show the student registration form
+     */
+    public function showRegistrationForm(): View
+    {
+        $programs = Program::all();
+        return view('student.register', compact('programs'));
+    }
+    
+    /**
+     * Handle student registration
+     */
+    public function register(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'first_name' => ['required', 'string', 'max:50'],
+            'last_name' => ['required', 'string', 'max:50'],
+            'birth_date' => ['required', 'date'],
+            'address' => ['required', 'string'],
+            'contact' => ['required', 'string', 'max:20'],
+            'program_id' => ['required', 'exists:programs,program_id'],
+            'year_level' => ['required', 'integer', 'min:1', 'max:4'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        
+        DB::beginTransaction();
+        
+        try {
+            // Create user account
+            $user = User::create([
+                'name' => $validated['first_name'] . ' ' . $validated['last_name'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+                'role' => 'student',
+            ]);
+            
+            // Create student record
+            Student::create([
+                'first_name' => $validated['first_name'],
+                'last_name' => $validated['last_name'],
+                'birth_date' => $validated['birth_date'],
+                'address' => $validated['address'],
+                'contact' => $validated['contact'],
+                'program_id' => $validated['program_id'],
+                'year_level' => $validated['year_level'],
+                'status' => 'Pending',
+                'profile_complete' => false,
+                'user_id' => $user->id,
+                'admission_id' => rand(10000, 99999), // Adding missing admission_id field
+            ]);
+            
+            DB::commit();
+            
+            // Redirect to login page with success message
+            return redirect()->route('student.login')
+                ->with('success', 'Registration successful! Please login with your credentials.');
+                
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log the detailed error
+            \Log::error('Student registration failed: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString());
+            
+            return back()->withInput()->with('error', 'Registration failed: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Show the student login form
+     */
+    public function showLoginForm(): View
+    {
+        return view('student.login');
+    }
+    
+    /**
+     * Handle student login request
+     */
+    public function login(Request $request): RedirectResponse
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+ 
+        // Add remember me functionality
+        $remember = $request->has('remember');
+        
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+            
+            if (Auth::user()->role === 'student') {
+                return redirect()->intended(route('student.dashboard'));
+            }
+            
+            // If not student, logout and redirect back with error
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'You do not have student access.',
+            ])->onlyInput('email');
+        }
+ 
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+    
+    /**
+     * Show the student dashboard
+     */
+    public function dashboard(): View
+    {
+        $student = Auth::user()->student;
+        return view('student.dashboard', compact('student'));
+    }
+    
+    /**
+     * Handle student logout
+     */
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+    
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+    
+        return redirect('/student/login');
     }
 } 

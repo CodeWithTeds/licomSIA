@@ -2,17 +2,22 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
             <div class="lg:w-1/2">
+                <div class="mb-4">
+                    <span class="inline-block py-1 px-3 bg-primary/20 text-primary font-medium text-sm rounded-full">
+                        Admissions Now Open for 2023-2024
+                    </span>
+                </div>
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                     <span class="text-[#578eb7]">LicomSIA</span>: Student Information System
                 </h1>
-                <p class="mt-6 text-lg md:text-xl text-[#e2e4e3] max-w-2xl">
+                <p class="mt-6 text-lg md:text-xl text-[#e2e4e3] max-w-2xl leading-relaxed">
                     A comprehensive cross-platform student information system designed specifically for Libon Community College. Streamline admissions, manage student records, and enhance administrative efficiency.
                 </p>
                 <div class="mt-8 flex flex-wrap gap-4">
-                    <a href="#features" class="px-8 py-3 bg-[#578eb7] hover:bg-[#2768bc] text-white font-medium rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105">
+                    <a href="#features" class="px-8 py-3 bg-[#578eb7] hover:bg-[#2768bc] text-white font-medium rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
                         Explore Features
                     </a>
-                    <a href="#contact" class="px-8 py-3 bg-transparent hover:bg-[#e2e4e3] border-2 border-[#e2e4e3] text-[#e2e4e3] hover:text-[#131417] font-medium rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105">
+                    <a href="#contact" class="px-8 py-3 bg-transparent hover:bg-[#e2e4e3] border-2 border-[#e2e4e3] text-[#e2e4e3] hover:text-[#131417] font-medium rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
                         Contact Us
                     </a>
                 </div>
@@ -66,6 +71,11 @@
                             </svg>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Floating badge -->
+                <div class="absolute -bottom-6 -left-6 md:left-12 bg-amber-500 text-white py-2 px-4 rounded-lg shadow-lg transform rotate-3 z-20">
+                    <span class="font-bold text-sm">Apply Now!</span>
                 </div>
             </div>
         </div>
