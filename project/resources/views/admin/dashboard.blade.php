@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="mt-4">
-                <a href="{{ route('instructors.index') }}" class="text-sm text-primary hover:underline">View all instructors</a>
+                <a href="{{ route('admin.instructors.index') }}" class="text-sm text-primary hover:underline">View all instructors</a>
             </div>
         </div>
 

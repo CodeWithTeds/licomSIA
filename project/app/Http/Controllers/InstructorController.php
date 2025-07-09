@@ -62,64 +62,51 @@ class InstructorController extends Controller
      */
     public function store(InstructorRequest $request): RedirectResponse
     {
-        $this->instructorService->createInstructor($request->validated());
+        $validatedData = $request->validated();
+        $instructor = Instructor::create($validatedData);
 
-        return redirect()->route('instructors.index')
+        return redirect()->route('admin.instructors.index')
             ->with('success', 'Instructor created successfully.');
     }
 
     /**
-     * Display the specified instructor.
-     *
-     * @param int $id
-     * @return View
+     * Display the specified resource.
      */
-    public function show(int $id): View
+    public function show(Instructor $instructor)
     {
-        $instructor = $this->instructorService->getInstructorById($id);
         return view('admin.instructors.show', compact('instructor'));
     }
 
     /**
-     * Show the form for editing the specified instructor.
-     *
-     * @param int $id
-     * @return View
+     * Show the form for editing the specified resource.
      */
-    public function edit(int $id): View
+    public function edit(Instructor $instructor)
     {
-        $instructor = $this->instructorService->getInstructorById($id);
-        $departments = Department::orderBy('name')->get();
-        $positions = Position::orderBy('name')->get();
+        $departments = Department::all();
+        $positions = Position::all();
         return view('admin.instructors.edit', compact('instructor', 'departments', 'positions'));
     }
 
     /**
-     * Update the specified instructor in storage.
-     *
-     * @param InstructorRequest $request
-     * @param Instructor $instructor
-     * @return RedirectResponse
+     * Update the specified resource in storage.
      */
-    public function update(InstructorRequest $request, Instructor $instructor): RedirectResponse
+    public function update(InstructorRequest $request, Instructor $instructor)
     {
-        $this->instructorService->updateInstructor($instructor, $request->validated());
+        $validatedData = $request->validated();
+        $instructor->update($validatedData);
 
-        return redirect()->route('instructors.index')
+        return redirect()->route('admin.instructors.index')
             ->with('success', 'Instructor updated successfully.');
     }
 
     /**
-     * Remove the specified instructor from storage.
-     *
-     * @param Instructor $instructor
-     * @return RedirectResponse
+     * Remove the specified resource from storage.
      */
-    public function destroy(Instructor $instructor): RedirectResponse
+    public function destroy(Instructor $instructor)
     {
-        $this->instructorService->deleteInstructor($instructor);
+        $instructor->delete();
 
-        return redirect()->route('instructors.index')
+        return redirect()->route('admin.instructors.index')
             ->with('success', 'Instructor deleted successfully.');
     }
 }

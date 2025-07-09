@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StudentRequest;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\EnrollmentCourse;
 use App\Models\Program;
 use App\Models\Schedule;
 use App\Models\Student;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
@@ -144,6 +146,20 @@ class StudentController extends Controller
     public function showEnrollmentForm()
     {
         $student = Auth::user()->student;
+        
+        // Check if student already has a pending or active enrollment
+        $activeEnrollment = $student->enrollments()
+                                   ->where('status', 'Pending')
+                                   ->orWhere('status', 'Enrolled')
+                                   ->latest()
+                                   ->first();
+        
+        if ($activeEnrollment) {
+            // Redirect to enrollment details page with a message
+            return redirect()->route('student.enrollment.show', $activeEnrollment)
+                             ->with('info', 'You already have an active enrollment. You cannot enroll in multiple programs simultaneously.');
+        }
+        
         $program = $student->program;
         
         // Filter courses by program_id and year_level
@@ -183,7 +199,7 @@ class StudentController extends Controller
                 'student_id' => $student->student_id,
                 'school_year' => $request->school_year,
                 'semester' => $request->semester,
-                'date_enrolled' => Carbon::now(),
+                'date_enrolled' => Carbon::now()->toDateString(),
                 'status' => 'Pending',
             ]);
             
@@ -238,6 +254,7 @@ class StudentController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
+        
         DB::beginTransaction();
         try {
             // Create user account

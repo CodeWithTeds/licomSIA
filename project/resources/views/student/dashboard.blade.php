@@ -89,23 +89,61 @@
     <div class="bg-gradient-to-r from-primary to-blue-700 text-white py-4 mb-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center justify-between">
-                <div class="flex items-center mb-3 md:mb-0">
-                    <div class="bg-white/20 rounded-full p-2 mr-3">
-                        <i class="fas fa-calendar-check text-xl"></i>
+                @php
+                    $activeEnrollment = Auth::user()->student->enrollments()
+                        ->where('status', 'Pending')
+                        ->orWhere('status', 'Enrolled')
+                        ->latest()
+                        ->first();
+                @endphp
+
+                @if($activeEnrollment)
+                    <div class="flex items-center mb-3 md:mb-0">
+                        @if($activeEnrollment->status == 'Pending')
+                            <div class="bg-yellow-100/30 rounded-full p-2 mr-3">
+                                <i class="fas fa-clock text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">Enrollment Pending</h3>
+                                <p class="text-sm text-white/80">Your enrollment request is being processed</p>
+                            </div>
+                        @else
+                            <div class="bg-white/20 rounded-full p-2 mr-3">
+                                <i class="fas fa-user-graduate text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">You're Enrolled!</h3>
+                                <p class="text-sm text-white/80">{{ $activeEnrollment->school_year }} - {{ $activeEnrollment->semester }} Semester</p>
+                            </div>
+                        @endif
                     </div>
-                    <div>
-                        <h3 class="font-bold text-lg">Course Enrollment Now Open!</h3>
-                        <p class="text-sm text-white/80">Secure your spot in your preferred courses before they fill up</p>
+                    <div class="flex space-x-3">
+                        <a href="{{ route('student.enrollment.show', $activeEnrollment) }}" class="bg-white text-primary hover:bg-white/90 px-4 py-2 rounded-lg font-medium text-sm transition">
+                            View Enrollment
+                        </a>
+                        <a href="#" class="bg-transparent border border-white text-white hover:bg-white/10 px-4 py-2 rounded-lg font-medium text-sm transition">
+                            My Courses
+                        </a>
                     </div>
-                </div>
-                <div class="flex space-x-3">
-                    <a href="{{ route('student.enroll') }}" class="bg-white text-primary hover:bg-white/90 px-4 py-2 rounded-lg font-medium text-sm transition">
-                        Enroll Now
-                    </a>
-                    <a href="#" class="bg-transparent border border-white text-white hover:bg-white/10 px-4 py-2 rounded-lg font-medium text-sm transition">
-                        View Courses
-                    </a>
-                </div>
+                @else
+                    <div class="flex items-center mb-3 md:mb-0">
+                        <div class="bg-white/20 rounded-full p-2 mr-3">
+                            <i class="fas fa-calendar-check text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Course Enrollment Now Open!</h3>
+                            <p class="text-sm text-white/80">Secure your spot in your preferred courses before they fill up</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <a href="{{ route('student.enroll') }}" class="bg-white text-primary hover:bg-white/90 px-4 py-2 rounded-lg font-medium text-sm transition">
+                            Enroll Now
+                        </a>
+                        <a href="#" class="bg-transparent border border-white text-white hover:bg-white/10 px-4 py-2 rounded-lg font-medium text-sm transition">
+                            View Courses
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

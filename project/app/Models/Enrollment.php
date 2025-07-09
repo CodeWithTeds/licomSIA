@@ -18,6 +18,10 @@ class Enrollment extends Model
         'date_enrolled',
         'status',
     ];
+    
+    protected $casts = [
+        'date_enrolled' => 'date',
+    ];
 
     public function student()
     {

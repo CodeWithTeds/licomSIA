@@ -35,7 +35,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AdminController::class, 'login'])->name('login.submit');
 
-    Route::middleware(['auth', 'admin'])->group(function () {
+    Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
 
@@ -76,7 +76,7 @@ Route::prefix('student')->name('student.')->group(function () {
     Route::post('/register', [StudentController::class, 'processAdmission'])->name('register.submit');
 
     // Protected student routes
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth', 'student'])->group(function () {
         Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [StudentController::class, 'logout'])->name('logout');
         
