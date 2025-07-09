@@ -76,7 +76,7 @@ Route::prefix('student')->name('student.')->group(function () {
     Route::post('/register', [StudentController::class, 'processAdmission'])->name('register.submit');
 
     // Protected student routes
-    Route::middleware(['auth', 'student'])->group(function () {
+    Route::middleware(['auth', \App\Http\Middleware\StudentMiddleware::class])->group(function () {
         Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [StudentController::class, 'logout'])->name('logout');
         

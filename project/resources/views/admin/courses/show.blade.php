@@ -7,10 +7,10 @@
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-semibold text-gray-900">Course Details</h1>
         <div class="flex space-x-2">
-            <a href="{{ route('courses.edit', $course->course_id) }}" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-500">
+            <a href="{{ route('admin.courses.edit', $course->course_id) }}" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-500">
                 <i class="fas fa-edit mr-2"></i>Edit
             </a>
-            <a href="{{ route('courses.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500">
+            <a href="{{ route('admin.courses.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500">
                 <i class="fas fa-arrow-left mr-2"></i>Back to Courses
             </a>
         </div>
@@ -75,7 +75,7 @@
             <!-- Danger Zone -->
             <div class="mt-8 pt-6 border-t border-gray-200">
                 <h3 class="text-lg font-semibold text-red-600 mb-4">Danger Zone</h3>
-                <form action="{{ route('courses.destroy', $course->course_id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this course? This action cannot be undone.');">
+                <form action="{{ route('admin.courses.destroy', $course->course_id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this course? This action cannot be undone.');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500">

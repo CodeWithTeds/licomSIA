@@ -6,7 +6,7 @@
 <div class="container mx-auto px-6 py-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-gray-900">Departments</h1>
-        <a href="{{ route('departments.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <a href="{{ route('admin.departments.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500">
             <i class="fas fa-plus mr-2"></i>Add Department
         </a>
     </div>
@@ -48,11 +48,11 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center space-x-2">
-                                <a href="{{ route('departments.edit', $department->id) }}" class="text-amber-600 hover:text-amber-900">
+                                <a href="{{ route('admin.departments.edit', $department->id) }}" class="text-amber-600 hover:text-amber-900">
                                     <i class="fas fa-edit"></i>
                                     <span class="sr-only">Edit</span>
                                 </a>
-                                <form action="{{ route('departments.destroy', $department->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this department?');">
+                                <form action="{{ route('admin.departments.destroy', $department->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this department?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900">

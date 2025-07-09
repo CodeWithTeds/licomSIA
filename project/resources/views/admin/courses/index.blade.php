@@ -6,7 +6,7 @@
 <div class="container mx-auto px-6 py-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-gray-900">Courses</h1>
-        <a href="{{ route('courses.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <a href="{{ route('admin.courses.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500">
             <i class="fas fa-plus mr-2"></i>Add Course
         </a>
     </div>
@@ -52,15 +52,15 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center space-x-2">
-                                <a href="{{ route('courses.show', $course->course_id) }}" class="text-blue-600 hover:text-blue-900">
+                                <a href="{{ route('admin.courses.show', $course->course_id) }}" class="text-blue-600 hover:text-blue-900">
                                     <i class="fas fa-eye"></i>
                                     <span class="sr-only">View</span>
                                 </a>
-                                <a href="{{ route('courses.edit', $course->course_id) }}" class="text-amber-600 hover:text-amber-900">
+                                <a href="{{ route('admin.courses.edit', $course->course_id) }}" class="text-amber-600 hover:text-amber-900">
                                     <i class="fas fa-edit"></i>
                                     <span class="sr-only">Edit</span>
                                 </a>
-                                <form action="{{ route('courses.destroy', $course->course_id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this course?');">
+                                <form action="{{ route('admin.courses.destroy', $course->course_id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this course?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900">

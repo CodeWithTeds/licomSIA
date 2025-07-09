@@ -87,9 +87,14 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        $programs = Program::all();
-        $instructors = Instructor::all();
-        return view('admin.courses.edit', compact('course', 'programs', 'instructors'));
+        $programs = Program::orderBy('program_name')->get();
+        $instructors = Instructor::with(['department', 'position'])
+            ->orderBy('last_name')
+            ->orderBy('first_name')
+            ->get();
+        $prerequisites = Course::orderBy('course_name')->get();
+        
+        return view('admin.courses.edit', compact('course', 'programs', 'instructors', 'prerequisites'));
     }
 
     /**
