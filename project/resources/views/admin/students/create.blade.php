@@ -35,8 +35,8 @@
                     <h4 class="text-lg font-medium text-gray-700 mb-4">Personal Information</h4>
                     
                     <div class="mb-4">
-                        <label for="admission_id" class="block text-sm font-medium text-gray-700 mb-1">Admission ID <span class="text-red-600">*</span></label>
-                        <input type="number" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 @error('admission_id') border-red-500 @enderror" id="admission_id" name="admission_id" value="{{ old('admission_id') }}" required>
+                        <label for="admission_id" class="block text-sm font-medium text-gray-700 mb-1">Admission ID</label>
+                        <input type="number" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 @error('admission_id') border-red-500 @enderror" id="admission_id" name="admission_id" value="{{ old('admission_id') }}" placeholder="Enter admission ID">
                         @error('admission_id')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -59,9 +59,9 @@
                     </div>
                     
                     <div class="mb-4">
-                        <label for="birth_date" class="block text-sm font-medium text-gray-700 mb-1">Birth Date <span class="text-red-600">*</span></label>
-                        <input type="date" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 @error('birth_date') border-red-500 @enderror" id="birth_date" name="birth_date" value="{{ old('birth_date') }}" required>
-                        @error('birth_date')
+                        <label for="birthdate" class="block text-sm font-medium text-gray-700 mb-1">Birth Date <span class="text-red-600">*</span></label>
+                        <input type="date" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 @error('birthdate') border-red-500 @enderror" id="birthdate" name="birthdate" value="{{ old('birthdate') }}" required>
+                        @error('birthdate')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
@@ -75,9 +75,9 @@
                     </div>
                     
                     <div class="mb-4">
-                        <label for="contact" class="block text-sm font-medium text-gray-700 mb-1">Contact Number <span class="text-red-600">*</span></label>
-                        <input type="text" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 @error('contact') border-red-500 @enderror" id="contact" name="contact" value="{{ old('contact') }}" required>
-                        @error('contact')
+                        <label for="contact_number" class="block text-sm font-medium text-gray-700 mb-1">Contact Number <span class="text-red-600">*</span></label>
+                        <input type="text" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 @error('contact_number') border-red-500 @enderror" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" required>
+                        @error('contact_number')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>

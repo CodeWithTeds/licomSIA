@@ -22,7 +22,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::with('program')->get();
+        $students = Student::with('program')->paginate(10);
         return view('admin.students.index', compact('students'));
     }
 
@@ -245,9 +245,9 @@ class StudentController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'gender' => 'required|in:Male,Female,Other',
-            'birth_date' => 'required|date',
+            'birthdate' => 'required|date',
             'address' => 'required|string|max:255',
-            'contact' => 'required|string|max:20',
+            'contact_number' => 'required|string|max:20',
             'program_id' => 'required|exists:programs,program_id',
             'year_level' => 'required|integer|min:1|max:4',
             'email' => 'required|email|max:255|unique:users,email',

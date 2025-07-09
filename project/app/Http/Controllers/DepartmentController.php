@@ -40,7 +40,7 @@ class DepartmentController extends Controller
     {
         Department::create($request->validated());
 
-        return redirect()->route('departments.index')
+        return redirect()->route('admin.departments.index')
             ->with('success', 'Department created successfully.');
     }
 
@@ -77,7 +77,7 @@ class DepartmentController extends Controller
     {
         $department->update($request->validated());
 
-        return redirect()->route('departments.index')
+        return redirect()->route('admin.departments.index')
             ->with('success', 'Department updated successfully.');
     }
 
@@ -91,13 +91,13 @@ class DepartmentController extends Controller
     {
         // Check if department has related records
         if ($department->instructors()->count() > 0 || $department->programs()->count() > 0) {
-            return redirect()->route('departments.index')
+            return redirect()->route('admin.departments.index')
                 ->with('error', 'Cannot delete department because it has related instructors or programs.');
         }
 
         $department->delete();
 
-        return redirect()->route('departments.index')
+        return redirect()->route('admin.departments.index')
             ->with('success', 'Department deleted successfully.');
     }
 } 

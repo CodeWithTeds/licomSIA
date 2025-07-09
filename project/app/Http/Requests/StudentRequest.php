@@ -24,20 +24,20 @@ class StudentRequest extends FormRequest
         $studentId = $this->route('student') ? $this->route('student')->student_id : null;
         
         $rules = [
-            'admission_id' => 'required|integer|unique:students,admission_id' . ($studentId ? ',' . $studentId . ',student_id' : ''),
+            'admission_id' => 'nullable|integer|unique:students,admission_id' . ($studentId ? ',' . $studentId . ',student_id' : ''),
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
-            'birth_date' => 'required|date',
+            'birthdate' => 'required|date',
             'address' => 'required|string',
-            'contact' => 'required|string|max:20',
+            'contact_number' => 'required|string|max:20',
+            'email' => 'required|email|unique:students,email' . ($studentId ? ',' . $studentId . ',student_id' : ''),
             'program_id' => 'required|exists:programs,program_id',
             'year_level' => 'required|integer|min:1|max:5',
             'status' => 'required|in:Pending,Enrolled,Dropped,Graduated',
         ];
         
-        // Only require email and password when creating a new student
+        // Only require password when creating a new student
         if (!$studentId) {
-            $rules['email'] = 'required|email|unique:users';
             $rules['password'] = 'required|min:8';
         }
         
