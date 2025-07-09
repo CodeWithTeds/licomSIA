@@ -6,7 +6,7 @@
 <div class="container mx-auto px-6 py-8">
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-semibold text-gray-900">Edit Program</h1>
-        <a href="{{ route('programs.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500">
+        <a href="{{ route('admin.programs.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500">
             <i class="fas fa-arrow-left mr-2"></i>Back to Programs
         </a>
     </div>
@@ -23,7 +23,7 @@
     @endif
 
     <div class="bg-white shadow-md rounded-lg p-6">
-        <form action="{{ route('programs.update', $program->program_id) }}" method="POST">
+        <form action="{{ route('admin.programs.update', $program->program_id) }}" method="POST">
             @csrf
             @method('PUT')
 
