@@ -9,25 +9,8 @@ class Course extends Model
 {
     use HasFactory;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'courses';
-
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
     protected $primaryKey = 'course_id';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'course_name',
         'units',
@@ -36,27 +19,35 @@ class Course extends Model
         'instructor_id',
     ];
 
-    /**
-     * Get the instructor that teaches the course.
-     */
-    public function instructor()
-    {
-        return $this->belongsTo(Instructor::class, 'instructor_id', 'instructor_id');
-    }
-
-    /**
-     * Get the program that the course belongs to.
-     */
     public function program()
     {
         return $this->belongsTo(Program::class, 'program_id', 'program_id');
     }
 
-    /**
-     * Get the prerequisite course.
-     */
+    public function instructor()
+    {
+        return $this->belongsTo(Instructor::class, 'instructor_id', 'instructor_id');
+    }
+
     public function prerequisite()
     {
         return $this->belongsTo(Course::class, 'prerequisite_id', 'course_id');
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class, 'course_id', 'course_id');
+    }
+
+    public function enrollmentCourses()
+    {
+        return $this->hasMany(EnrollmentCourse::class, 'course_id', 'course_id');
+    }
+
+    public function enrollments()
+    {
+        return $this->belongsToMany(Enrollment::class, 'enrollment_courses', 'course_id', 'enrollment_id', 'course_id', 'enrollment_id')
+            ->withPivot(['grade_midterm', 'grade_finals', 'remarks'])
+            ->withTimestamps();
     }
 }
