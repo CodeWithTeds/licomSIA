@@ -102,7 +102,7 @@
                 
                 <div class="text-center text-sm">
                     <span class="text-gray-500">Don't have an account?</span>
-                    <a href="{{ route('student.admission.create') }}" class="font-medium text-primary hover:text-blue-800 ml-1 transition duration-150">
+                    <a href="{{ route('student.register') }}" class="font-medium text-primary hover:text-blue-800 ml-1 transition duration-150">
                         Register now
                     </a>
                 </div>

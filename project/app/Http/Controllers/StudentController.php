@@ -60,11 +60,59 @@ class StudentController extends Controller
         return redirect()->route('admin.students.index')->with('success', 'Student deleted successfully.');
     }
 
+    // Authentication Methods
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $remember = $request->has('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+            
+            if (Auth::user()->role === 'student') {
+                return redirect()->intended(route('student.dashboard'));
+            }
+            
+            // If not a student, logout and redirect back with error
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'You do not have student access.',
+            ])->onlyInput('email');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect()->route('student.login');
+    }
+
     // Student Dashboard Methods
     public function dashboard()
     {
-        $student = Auth::user()->student;
+        $user = Auth::user();
+        
+        if (!$user || !$user->student) {
+            // If there's no student profile, redirect to login
+            return redirect()->route('student.login')
+                ->with('error', 'Student profile not found. Please contact the administrator.');
+        }
+        
+        $student = $user->student;
         $enrollments = $student->enrollments()->orderBy('created_at', 'desc')->get();
+        
         return view('student.dashboard', compact('student', 'enrollments'));
     }
 
@@ -175,13 +223,12 @@ class StudentController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'middle_name' => 'nullable|string|max:255',
-            'gender' => 'required|in:Male,Female,Other',
-            'birthdate' => 'required|date',
+            'birth_date' => 'required|date',
             'address' => 'required|string|max:255',
-            'contact_number' => 'required|string|max:20',
-            'email' => 'required|email|max:255|unique:students,email',
+            'contact' => 'required|string|max:20',
             'program_id' => 'required|exists:programs,program_id',
+            'year_level' => 'required|integer|min:1|max:4',
+            'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -210,19 +257,17 @@ class StudentController extends Controller
             
             $studentNumber = $year . '-' . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
             
-            // Create student record
+            // Create student record - directly set as Enrolled
             Student::create([
                 'user_id' => $user->id,
                 'student_number' => $studentNumber,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
-                'middle_name' => $request->middle_name,
-                'gender' => $request->gender,
-                'birthdate' => $request->birthdate,
+                'birthdate' => $request->birth_date,
                 'address' => $request->address,
-                'contact_number' => $request->contact_number,
-                'email' => $request->email,
+                'contact_number' => $request->contact,
                 'program_id' => $request->program_id,
+                'status' => 'Enrolled', // Directly enroll the student
             ]);
             
             DB::commit();
@@ -230,10 +275,10 @@ class StudentController extends Controller
             // Log the user in
             Auth::login($user);
             
-            return redirect()->route('student.dashboard')->with('success', 'Your admission has been processed successfully. Welcome to our institution!');
+            return redirect()->route('student.dashboard')->with('success', 'Registration successful! Welcome to our institution.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'An error occurred during admission: ' . $e->getMessage())->withInput();
+            return redirect()->back()->with('error', 'An error occurred during registration: ' . $e->getMessage())->withInput();
         }
     }
 } 

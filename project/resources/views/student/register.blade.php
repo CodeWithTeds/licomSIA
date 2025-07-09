@@ -34,7 +34,7 @@
                 </div>
             @endif
             
-            <form action="{{ route('student.register.post') }}" method="POST" class="space-y-8">
+            <form action="{{ route('student.register.submit') }}" method="POST" class="space-y-8">
                 @csrf
                 
                 <!-- Personal Information -->

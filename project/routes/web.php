@@ -67,12 +67,16 @@ Route::prefix('student')->name('student.')->group(function () {
     })->name('login');
     Route::post('/login', [StudentController::class, 'login'])->name('login.submit');
     
-    // Admission routes
-    Route::get('/admission', [StudentController::class, 'showAdmissionForm'])->name('admission.create');
-    Route::post('/admission', [StudentController::class, 'processAdmission'])->name('admission.store');
+    
+    // Registration routes
+    Route::get('/register', function () {
+        $programs = \App\Models\Program::all();
+        return view('student.register', compact('programs'));
+    })->name('register');
+    Route::post('/register', [StudentController::class, 'processAdmission'])->name('register.submit');
 
     // Protected student routes
-    Route::middleware(['auth', 'student'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [StudentController::class, 'logout'])->name('logout');
         
