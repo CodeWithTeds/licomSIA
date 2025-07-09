@@ -67,71 +67,51 @@ class CourseController extends Controller
      */
     public function store(CourseRequest $request): RedirectResponse
     {
-        $this->courseService->createCourse($request->validated());
+        $validatedData = $request->validated();
+        $course = Course::create($validatedData);
 
-        return redirect()->route('courses.index')
+        return redirect()->route('admin.courses.index')
             ->with('success', 'Course created successfully.');
     }
 
     /**
-     * Display the specified course.
-     *
-     * @param int $id
-     * @return View
+     * Display the specified resource.
      */
-    public function show(int $id): View
+    public function show(Course $course)
     {
-        $course = $this->courseService->getCourseById($id);
         return view('admin.courses.show', compact('course'));
     }
 
     /**
-     * Show the form for editing the specified course.
-     *
-     * @param int $id
-     * @return View
+     * Show the form for editing the specified resource.
      */
-    public function edit(int $id): View
+    public function edit(Course $course)
     {
-        $course = $this->courseService->getCourseById($id);
-        $programs = Program::orderBy('program_name')->get();
-        $instructors = Instructor::with(['department', 'position'])
-            ->orderBy('last_name')
-            ->orderBy('first_name')
-            ->get();
-        $prerequisites = Course::where('course_id', '!=', $id)
-            ->orderBy('course_name')
-            ->get();
-
-        return view('admin.courses.edit', compact('course', 'programs', 'instructors', 'prerequisites'));
+        $programs = Program::all();
+        $instructors = Instructor::all();
+        return view('admin.courses.edit', compact('course', 'programs', 'instructors'));
     }
 
     /**
-     * Update the specified course in storage.
-     *
-     * @param CourseRequest $request
-     * @param Course $course
-     * @return RedirectResponse
+     * Update the specified resource in storage.
      */
-    public function update(CourseRequest $request, Course $course): RedirectResponse
+    public function update(CourseRequest $request, Course $course)
     {
-        $this->courseService->updateCourse($course, $request->validated());
+        $validatedData = $request->validated();
+        $course->update($validatedData);
 
-        return redirect()->route('courses.index')
+        return redirect()->route('admin.courses.index')
             ->with('success', 'Course updated successfully.');
     }
 
     /**
-     * Remove the specified course from storage.
-     *
-     * @param Course $course
-     * @return RedirectResponse
+     * Remove the specified resource from storage.
      */
-    public function destroy(Course $course): RedirectResponse
+    public function destroy(Course $course)
     {
-        $this->courseService->deleteCourse($course);
+        $course->delete();
 
-        return redirect()->route('courses.index')
+        return redirect()->route('admin.courses.index')
             ->with('success', 'Course deleted successfully.');
     }
 }

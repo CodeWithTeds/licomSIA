@@ -40,7 +40,7 @@ class PositionController extends Controller
     {
         Position::create($request->validated());
 
-        return redirect()->route('positions.index')
+        return redirect()->route('admin.positions.index')
             ->with('success', 'Position created successfully.');
     }
 
@@ -77,7 +77,7 @@ class PositionController extends Controller
     {
         $position->update($request->validated());
 
-        return redirect()->route('positions.index')
+        return redirect()->route('admin.positions.index')
             ->with('success', 'Position updated successfully.');
     }
 
@@ -91,13 +91,13 @@ class PositionController extends Controller
     {
         // Check if position has related instructors
         if ($position->instructors()->count() > 0) {
-            return redirect()->route('positions.index')
+            return redirect()->route('admin.positions.index')
                 ->with('error', 'Cannot delete position because it has related instructors.');
         }
 
         $position->delete();
 
-        return redirect()->route('positions.index')
+        return redirect()->route('admin.positions.index')
             ->with('success', 'Position deleted successfully.');
     }
 } 

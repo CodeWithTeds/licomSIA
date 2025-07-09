@@ -60,63 +60,50 @@ class ProgramController extends Controller
      */
     public function store(ProgramRequest $request): RedirectResponse
     {
-        $this->programService->createProgram($request->validated());
+        $validatedData = $request->validated();
+        $program = Program::create($validatedData);
 
-        return redirect()->route('programs.index')
+        return redirect()->route('admin.programs.index')
             ->with('success', 'Program created successfully.');
     }
 
     /**
-     * Display the specified program.
-     *
-     * @param int $id
-     * @return View
+     * Display the specified resource.
      */
-    public function show(int $id): View
+    public function show(Program $program)
     {
-        $program = $this->programService->getProgramById($id);
         return view('admin.programs.show', compact('program'));
     }
 
     /**
-     * Show the form for editing the specified program.
-     *
-     * @param int $id
-     * @return View
+     * Show the form for editing the specified resource.
      */
-    public function edit(int $id): View
+    public function edit(Program $program)
     {
-        $program = $this->programService->getProgramById($id);
-        $departments = Department::orderBy('name')->get();
+        $departments = Department::all();
         return view('admin.programs.edit', compact('program', 'departments'));
     }
 
     /**
-     * Update the specified program in storage.
-     *
-     * @param ProgramRequest $request
-     * @param Program $program
-     * @return RedirectResponse
+     * Update the specified resource in storage.
      */
-    public function update(ProgramRequest $request, Program $program): RedirectResponse
+    public function update(ProgramRequest $request, Program $program)
     {
-        $this->programService->updateProgram($program, $request->validated());
+        $validatedData = $request->validated();
+        $program->update($validatedData);
 
-        return redirect()->route('programs.index')
+        return redirect()->route('admin.programs.index')
             ->with('success', 'Program updated successfully.');
     }
 
     /**
-     * Remove the specified program from storage.
-     *
-     * @param Program $program
-     * @return RedirectResponse
+     * Remove the specified resource from storage.
      */
-    public function destroy(Program $program): RedirectResponse
+    public function destroy(Program $program)
     {
-        $this->programService->deleteProgram($program);
+        $program->delete();
 
-        return redirect()->route('programs.index')
+        return redirect()->route('admin.programs.index')
             ->with('success', 'Program deleted successfully.');
     }
 }

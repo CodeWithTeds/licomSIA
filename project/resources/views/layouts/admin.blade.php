@@ -102,21 +102,22 @@
                 <div class="py-4">
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Academic</p>
                     <nav>
-                        <a href="{{ route('students.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('students.*') ? 'active bg-gray-800 text-white' : '' }}">
-                            <i class="fas fa-users w-5 h-5 mr-3"></i>
-                            <span class="text-sm font-medium">Students</span>
+                        <a href="{{ route('admin.students.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.students.*') ? 'active bg-gray-800 text-white' : '' }}">
+                            <i class="fas fa-user-graduate w-5 mr-3 text-center"></i>
+                            <span>Students</span>
                         </a>
                         <a href="#" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
                             <i class="fas fa-chalkboard-teacher w-5 h-5 mr-3"></i>
                             <span class="text-sm font-medium">Faculty</span>
                         </a>
-                        <a href="{{ route('programs.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('programs.*') ? 'active bg-gray-800 text-white' : '' }}">
+                        <a href="{{ route('admin.programs.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.programs.*') ? 'active bg-gray-800 text-white' : '' }}">
                             <i class="fas fa-graduation-cap w-5 h-5 mr-3"></i>
                             <span class="text-sm font-medium">Programs</span>
                         </a>
-                        <a href="{{ route('courses.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('courses.*') ? 'active bg-gray-800 text-white' : '' }}">
-                            <i class="fas fa-book-open w-5 h-5 mr-3"></i>
-                            <span class="text-sm font-medium">Courses</span>
+                        <!-- Courses -->
+                        <a href="{{ route('admin.courses.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.courses.*') ? 'active bg-gray-800 text-white' : '' }}">
+                            <i class="fas fa-book w-5 mr-3 text-center"></i>
+                            <span>Courses</span>
                         </a>
                     </nav>
                 </div>
@@ -125,15 +126,15 @@
                 <div class="py-4">
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Faculty Management</p>
                     <nav>
-                        <a href="{{ route('instructors.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('instructors.*') ? 'active bg-gray-800 text-white' : '' }}">
+                        <a href="{{ route('admin.instructors.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.instructors.*') ? 'active bg-gray-800 text-white' : '' }}">
                             <i class="fas fa-chalkboard-teacher w-5 h-5 mr-3"></i>
                             <span class="text-sm font-medium">Instructors</span>
                         </a>
-                        <a href="{{ route('departments.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('departments.*') ? 'active bg-gray-800 text-white' : '' }}">
+                        <a href="{{ route('admin.departments.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.departments.*') ? 'active bg-gray-800 text-white' : '' }}">
                             <i class="fas fa-building w-5 h-5 mr-3"></i>
                             <span class="text-sm font-medium">Departments</span>
                         </a>
-                        <a href="{{ route('positions.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('positions.*') ? 'active bg-gray-800 text-white' : '' }}">
+                        <a href="{{ route('admin.positions.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.positions.*') ? 'active bg-gray-800 text-white' : '' }}">
                             <i class="fas fa-id-badge w-5 h-5 mr-3"></i>
                             <span class="text-sm font-medium">Positions</span>
                         </a>
@@ -225,21 +226,21 @@
                     <div class="py-4">
                         <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Academic</p>
                         <nav>
-                            <a href="{{ route('students.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('students.*') ? 'active bg-gray-800 text-white' : '' }}">
-                                <i class="fas fa-users w-5 h-5 mr-3"></i>
-                                <span class="text-sm font-medium">Students</span>
+                            <a href="{{ route('admin.students.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.students.*') ? 'active bg-gray-800 text-white' : '' }}">
+                                <i class="fas fa-user-graduate w-5 mr-3 text-center"></i>
+                                <span>Students</span>
                             </a>
                             <a href="#" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
                                 <i class="fas fa-chalkboard-teacher w-5 h-5 mr-3"></i>
                                 <span class="text-sm font-medium">Faculty</span>
                             </a>
-                            <a href="{{ route('programs.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('programs.*') ? 'active bg-gray-800 text-white' : '' }}">
+                            <a href="{{ route('admin.programs.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.programs.*') ? 'active bg-gray-800 text-white' : '' }}">
                                 <i class="fas fa-graduation-cap w-5 h-5 mr-3"></i>
                                 <span class="text-sm font-medium">Programs</span>
                             </a>
-                            <a href="{{ route('courses.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('courses.*') ? 'active bg-gray-800 text-white' : '' }}">
-                                <i class="fas fa-book-open w-5 h-5 mr-3"></i>
-                                <span class="text-sm font-medium">Courses</span>
+                            <a href="{{ route('admin.courses.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.courses.*') ? 'active bg-gray-800 text-white' : '' }}">
+                                <i class="fas fa-book w-5 mr-3 text-center"></i>
+                                <span>Courses</span>
                             </a>
                         </nav>
                     </div>
@@ -247,11 +248,11 @@
                     <div class="py-4">
                         <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Students</p>
                         <nav>
-                            <a href="{{ route('students.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('students.index') ? 'active bg-gray-800 text-white' : '' }}">
+                            <a href="{{ route('admin.students.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.students.index') ? 'active bg-gray-800 text-white' : '' }}">
                                 <i class="fas fa-list w-5 h-5 mr-3"></i>
                                 <span class="text-sm font-medium">All Students</span>
                             </a>
-                            <a href="{{ route('students.create') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('students.create') ? 'active bg-gray-800 text-white' : '' }}">
+                            <a href="{{ route('admin.students.create') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.students.create') ? 'active bg-gray-800 text-white' : '' }}">
                                 <i class="fas fa-user-plus w-5 h-5 mr-3"></i>
                                 <span class="text-sm font-medium">Add Student</span>
                             </a>
@@ -265,7 +266,7 @@
                                 <i class="fas fa-list w-5 h-5 mr-3"></i>
                                 <span class="text-sm font-medium">All Instructors</span>
                             </a>
-                            <a href="{{ route('instructors.create') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('instructors.create') ? 'active bg-gray-800 text-white' : '' }}">
+                            <a href="{{ route('admin.instructors.create') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.instructors.create') ? 'active bg-gray-800 text-white' : '' }}">
                                 <i class="fas fa-user-plus w-5 h-5 mr-3"></i>
                                 <span class="text-sm font-medium">Add Instructor</span>
                             </a>
@@ -275,15 +276,15 @@
                     <div class="py-4">
                         <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Faculty Management</p>
                         <nav>
-                            <a href="{{ route('instructors.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('instructors.*') ? 'active bg-gray-800 text-white' : '' }}">
+                            <a href="{{ route('admin.instructors.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.instructors.*') ? 'active bg-gray-800 text-white' : '' }}">
                                 <i class="fas fa-chalkboard-teacher w-5 h-5 mr-3"></i>
                                 <span class="text-sm font-medium">Instructors</span>
                             </a>
-                            <a href="{{ route('departments.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('departments.*') ? 'active bg-gray-800 text-white' : '' }}">
+                            <a href="{{ route('admin.departments.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.departments.*') ? 'active bg-gray-800 text-white' : '' }}">
                                 <i class="fas fa-building w-5 h-5 mr-3"></i>
                                 <span class="text-sm font-medium">Departments</span>
                             </a>
-                            <a href="{{ route('positions.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('positions.*') ? 'active bg-gray-800 text-white' : '' }}">
+                            <a href="{{ route('admin.positions.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.positions.*') ? 'active bg-gray-800 text-white' : '' }}">
                                 <i class="fas fa-id-badge w-5 h-5 mr-3"></i>
                                 <span class="text-sm font-medium">Positions</span>
                             </a>

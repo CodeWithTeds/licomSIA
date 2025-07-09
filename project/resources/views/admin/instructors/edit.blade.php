@@ -3,17 +3,15 @@
 @section('header', 'Edit Instructor')
 
 @section('content')
-    <div class="mb-6">
-        <a href="{{ route('instructors.index') }}" class="flex items-center text-primary hover:text-primary-dark">
-            <i class="fas fa-arrow-left mr-2"></i> Back to Instructors
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Edit Instructor</h1>
+        <a href="{{ route('admin.instructors.index') }}" class="flex items-center text-primary hover:text-primary-dark">
+            <i class="fas fa-arrow-left mr-1"></i> Back to Instructors
         </a>
     </div>
 
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div class="p-6">
-            <h2 class="text-2xl font-semibold text-dark mb-6">Edit Instructor</h2>
-
-            <form action="{{ route('instructors.update', $instructor->instructor_id) }}" method="POST">
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <form action="{{ route('admin.instructors.update', $instructor->instructor_id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 

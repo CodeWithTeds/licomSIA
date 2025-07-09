@@ -3,9 +3,10 @@
 @section('header', 'Instructor Details')
 
 @section('content')
-    <div class="mb-6">
-        <a href="{{ route('instructors.index') }}" class="flex items-center text-primary hover:text-primary-dark">
-            <i class="fas fa-arrow-left mr-2"></i> Back to Instructors
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Instructor Details</h1>
+        <a href="{{ route('admin.instructors.index') }}" class="flex items-center text-primary hover:text-primary-dark">
+            <i class="fas fa-arrow-left mr-1"></i> Back to Instructors
         </a>
     </div>
 
@@ -16,17 +17,18 @@
                     <h2 class="text-2xl font-semibold text-dark mb-2">{{ $instructor->first_name }} {{ $instructor->last_name }}</h2>
                     <p class="text-gray-600">{{ $instructor->position->name }} - {{ $instructor->department->name }}</p>
                 </div>
-                <div class="space-x-3">
-                    <a href="{{ route('instructors.edit', $instructor->instructor_id) }}" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                        <i class="fas fa-edit mr-2"></i> Edit
+                <div class="flex space-x-4 mb-6">
+                    <a href="{{ route('admin.instructors.edit', $instructor->instructor_id) }}" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                        <i class="fas fa-edit mr-1"></i> Edit
                     </a>
-                    <button onclick="document.getElementById('delete-form').submit();" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-                        <i class="fas fa-trash mr-2"></i> Delete
-                    </button>
-                    <form id="delete-form" action="{{ route('instructors.destroy', $instructor->instructor_id) }}" method="POST" class="hidden">
+                    
+                    <form id="delete-form" action="{{ route('admin.instructors.destroy', $instructor->instructor_id) }}" method="POST" class="hidden">
                         @csrf
                         @method('DELETE')
                     </form>
+                    <button onclick="if(confirm('Are you sure you want to delete this instructor?')) document.getElementById('delete-form').submit();" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                        <i class="fas fa-trash mr-1"></i> Delete
+                    </button>
                 </div>
             </div>
 
