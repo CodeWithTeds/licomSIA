@@ -1,63 +1,88 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\InstructorController;
-use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
+use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+// Landing page route
 Route::get('/', function () {
     return view('landing');
-});
+})->name('landing');
 
-// Student Routes
-Route::get('/student/register', [StudentController::class, 'showRegistrationForm'])->name('student.register');
-Route::post('/student/register', [StudentController::class, 'register'])->name('student.register.post');
-Route::get('/student/login', [StudentController::class, 'showLoginForm'])->name('student.login');
-Route::post('/student/login', [StudentController::class, 'login'])->name('student.login.post');
+// Public routes
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
 
-// Student authenticated routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])
-        ->middleware('can:student')
-        ->name('student.dashboard');
-    Route::post('/student/logout', [StudentController::class, 'logout'])->name('student.logout');
-});
+// Admin routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminController::class, 'login'])->name('login.submit');
 
-// Admin Routes
-Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.post');
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->middleware('can:admin')->name('admin.dashboard');
+        // Department routes
+        Route::resource('departments', DepartmentController::class);
 
-    Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
-    
-    // Instructor Routes
-    Route::resource('instructors', InstructorController::class)->middleware('can:admin');
-        
-    // Course Routes
-    Route::resource('courses', CourseController::class) ->middleware('can:admin');
-        
-    // Program Routes
-    Route::resource('programs', ProgramController::class)->middleware('can:admin');
-        
-    // Department Routes
-    Route::resource('departments', DepartmentController::class)->middleware('can:admin');
-        
-    // Position Routes
-    Route::resource('positions', PositionController::class)->middleware('can:admin');
+        // Position routes
+        Route::resource('positions', PositionController::class);
 
-    // Student profile routes
-    Route::get('/student/profile', [StudentController::class, 'profile'])->name('student.profile');
-    Route::put('/student/profile', [StudentController::class, 'updateProfile'])->name('student.profile.update');
-    
-    // Admin routes for student management
-    Route::prefix('admin')->group(function () {
-        // Student management
+        // Instructor routes
+        Route::resource('instructors', InstructorController::class);
+
+        // Course routes
+        Route::resource('courses', CourseController::class);
+
+        // Program routes
+        Route::resource('programs', ProgramController::class);
+
+        // Student routes
         Route::resource('students', StudentController::class);
+    });
+});
+
+// Student routes
+Route::prefix('student')->name('student.')->group(function () {
+    // Public student routes
+    Route::get('/login', function () {
+        return view('student.login');
+    })->name('login');
+    Route::post('/login', [StudentController::class, 'login'])->name('login.submit');
+    
+    // Admission routes
+    Route::get('/admission', [StudentController::class, 'showAdmissionForm'])->name('admission.create');
+    Route::post('/admission', [StudentController::class, 'processAdmission'])->name('admission.store');
+
+    // Protected student routes
+    Route::middleware(['auth', 'student'])->group(function () {
+        Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
+        Route::post('/logout', [StudentController::class, 'logout'])->name('logout');
+        
+        // Profile routes
+        Route::get('/profile', [StudentController::class, 'profile'])->name('profile');
+        Route::put('/profile', [StudentController::class, 'updateProfile'])->name('profile.update');
+        
+        // Enrollment routes
+        Route::get('/enrollment', [StudentController::class, 'showEnrollmentForm'])->name('enrollment.create');
+        Route::post('/enrollment', [StudentController::class, 'processEnrollment'])->name('enrollment.store');
+        Route::get('/enrollment/{enrollment}', [StudentController::class, 'showEnrollmentDetails'])->name('enrollment.show');
     });
 });
