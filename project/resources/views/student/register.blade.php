@@ -71,6 +71,22 @@
                     </div>
 
                     <div class="mt-4">
+                        <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                        <select id="gender" name="gender" required 
+                            class="block w-full px-3 py-2 border border-gray-300 
+                            rounded-lg text-gray-900 focus:outline-none focus:ring-2
+                            focus:ring-primary focus:border-primary transition duration-150">
+                            <option value="">Select gender</option>
+                            <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
+                            <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
+                            <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other</option>
+                        </select>
+                        @error('gender')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mt-4">
                         <label for="birth_date" class="block text-sm font-medium text-gray-700 mb-1">Birth Date</label>
                         <input id="birth_date" name="birth_date" type="date" required 
                             class="block w-full px-3 py-2 border border-gray-300 

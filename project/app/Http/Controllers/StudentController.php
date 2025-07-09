@@ -228,6 +228,7 @@ class StudentController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
+            'gender' => 'required|in:Male,Female,Other',
             'birth_date' => 'required|date',
             'address' => 'required|string|max:255',
             'contact' => 'required|string|max:20',
@@ -268,10 +269,13 @@ class StudentController extends Controller
                 'student_number' => $studentNumber,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
+                'gender' => $request->gender,
                 'birthdate' => $request->birth_date,
                 'address' => $request->address,
                 'contact_number' => $request->contact,
+                'email' => $request->email,
                 'program_id' => $request->program_id,
+                'year_level' => $request->year_level,
                 'status' => 'Enrolled', // Directly enroll the student
             ]);
             

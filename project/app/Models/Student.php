@@ -23,6 +23,8 @@ class Student extends Model
         'contact_number',
         'email',
         'program_id',
+        'year_level',
+        'status',
     ];
 
     public function user()
