@@ -145,7 +145,12 @@ class StudentController extends Controller
     {
         $student = Auth::user()->student;
         $program = $student->program;
-        $courses = Course::where('program_id', $program->program_id)->get();
+        
+        // Filter courses by program_id and year_level
+        $courses = Course::where('program_id', $program->program_id)
+                         ->where('year_level', $student->year_level)
+                         ->get();
+                         
         $schedules = Schedule::with('course')->get();
         
         // Get current school year and semester
@@ -190,7 +195,7 @@ class StudentController extends Controller
             }
             
             DB::commit();
-            return redirect()->route('student.dashboard')->with('success', 'Enrollment submitted successfully. Please wait for approval.');
+            return redirect()->route('student.enrollment.show', $enrollment)->with('success', 'Enrollment submitted successfully. Please wait for approval.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred during enrollment: ' . $e->getMessage())->withInput();

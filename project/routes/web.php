@@ -85,8 +85,8 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::put('/profile', [StudentController::class, 'updateProfile'])->name('profile.update');
         
         // Enrollment routes
-        Route::get('/enrollment', [StudentController::class, 'showEnrollmentForm'])->name('enrollment.create');
-        Route::post('/enrollment', [StudentController::class, 'processEnrollment'])->name('enrollment.store');
+        Route::get('/enroll', [StudentController::class, 'showEnrollmentForm'])->name('enroll');
+        Route::post('/enroll', [StudentController::class, 'processEnrollment'])->name('enrollment.store');
         Route::get('/enrollment/{enrollment}', [StudentController::class, 'showEnrollmentDetails'])->name('enrollment.show');
     });
 });

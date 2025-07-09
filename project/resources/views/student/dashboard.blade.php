@@ -99,7 +99,7 @@
                     </div>
                 </div>
                 <div class="flex space-x-3">
-                    <a href="" class="bg-white text-primary hover:bg-white/90 px-4 py-2 rounded-lg font-medium text-sm transition">
+                    <a href="{{ route('student.enroll') }}" class="bg-white text-primary hover:bg-white/90 px-4 py-2 rounded-lg font-medium text-sm transition">
                         Enroll Now
                     </a>
                     <a href="#" class="bg-transparent border border-white text-white hover:bg-white/10 px-4 py-2 rounded-lg font-medium text-sm transition">
@@ -482,7 +482,7 @@
                         </div>
                         
                         <div class="mt-6 flex justify-center">
-                            <a href="" class="inline-flex items-center justify-center px-6 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition">
+                            <a href="{{ route('student.enroll') }}" class="inline-flex items-center justify-center px-6 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition">
                                 <i class="fas fa-check-circle mr-2"></i> Enroll in Courses
                             </a>
                         </div>

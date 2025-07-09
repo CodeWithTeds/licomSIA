@@ -16,6 +16,7 @@ class Course extends Model
         'units',
         'prerequisite_id',
         'program_id',
+        'year_level',
         'instructor_id',
     ];
 

@@ -1,7 +1,7 @@
 @extends('layouts.student')
 
 @section('content')
-<div class="container py-8">
+<div class="container mx-auto max-w-4xl py-8 px-4">
     <div class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-800">Enrollment Details</h1>
@@ -54,6 +54,7 @@
                             <tr>
                                 <th class="py-3 px-4 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Course</th>
                                 <th class="py-3 px-4 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Units</th>
+                                <th class="py-3 px-4 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Year Level</th>
                                 <th class="py-3 px-4 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Schedule</th>
                                 <th class="py-3 px-4 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Midterm Grade</th>
                                 <th class="py-3 px-4 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Final Grade</th>
@@ -65,6 +66,7 @@
                                 <tr class="hover:bg-gray-50">
                                     <td class="py-3 px-4 border-b border-gray-200">{{ $enrollmentCourse->course->course_name }}</td>
                                     <td class="py-3 px-4 border-b border-gray-200">{{ $enrollmentCourse->course->units }}</td>
+                                    <td class="py-3 px-4 border-b border-gray-200">{{ $enrollmentCourse->course->year_level }}</td>
                                     <td class="py-3 px-4 border-b border-gray-200">
                                         @if($enrollmentCourse->course->schedules->count() > 0)
                                             @foreach($enrollmentCourse->course->schedules as $schedule)
