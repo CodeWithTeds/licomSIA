@@ -38,7 +38,7 @@ class InstructorController extends Controller
      */
     public function index(): View
     {
-        $instructors = $this->instructorService->getAllInstructors();
+        $instructors = $this->instructorService->getAllInstructors(10); // 10 per page
         return view('admin.instructors.index', compact('instructors'));
     }
 

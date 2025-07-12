@@ -107,6 +107,14 @@
                                 <h3 class="font-bold text-lg">Enrollment Pending</h3>
                                 <p class="text-sm text-white/80">Your enrollment request is being processed</p>
                             </div>
+                        @elseif($activeEnrollment->status == 'Approved')
+                            <div class="bg-green-100/30 rounded-full p-2 mr-3">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">Enrollment Approved!</h3>
+                                <p class="text-sm text-white/80">Your courses are ready. Welcome!</p>
+                            </div>
                         @else
                             <div class="bg-white/20 rounded-full p-2 mr-3">
                                 <i class="fas fa-user-graduate text-xl"></i>
@@ -139,9 +147,7 @@
                         <a href="{{ route('student.enroll') }}" class="bg-white text-primary hover:bg-white/90 px-4 py-2 rounded-lg font-medium text-sm transition">
                             Enroll Now
                         </a>
-                        <a href="#" class="bg-transparent border border-white text-white hover:bg-white/10 px-4 py-2 rounded-lg font-medium text-sm transition">
-                            View Courses
-                        </a>
+                     
                     </div>
                 @endif
             </div>
@@ -154,26 +160,31 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <!-- Enrollment Status -->
                 <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 
-                    @if(Auth::user()->student && Auth::user()->student->status == 'Enrolled') border-green-500
-                    @elseif(Auth::user()->student && Auth::user()->student->status == 'Pending') border-yellow-500
+                    @if(isset($activeEnrollment) && $activeEnrollment->status == 'Enrolled') border-green-500
+                    @elseif(isset($activeEnrollment) && $activeEnrollment->status == 'Approved') border-green-500
+                    @elseif(isset($activeEnrollment) && $activeEnrollment->status == 'Pending') border-yellow-500
                     @elseif(Auth::user()->student && Auth::user()->student->status == 'Dropped') border-red-500
                     @else border-gray-500 @endif">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full 
-                            @if(Auth::user()->student && Auth::user()->student->status == 'Enrolled') bg-green-100
-                            @elseif(Auth::user()->student && Auth::user()->student->status == 'Pending') bg-yellow-100
+                            @if(isset($activeEnrollment) && $activeEnrollment->status == 'Enrolled') bg-green-100
+                            @elseif(isset($activeEnrollment) && $activeEnrollment->status == 'Approved') bg-green-100
+                            @elseif(isset($activeEnrollment) && $activeEnrollment->status == 'Pending') bg-yellow-100
                             @elseif(Auth::user()->student && Auth::user()->student->status == 'Dropped') bg-red-100
                             @else bg-gray-100 @endif mr-4">
                             <i class="fas fa-user-check text-xl
-                                @if(Auth::user()->student && Auth::user()->student->status == 'Enrolled') text-green-500
-                                @elseif(Auth::user()->student && Auth::user()->student->status == 'Pending') text-yellow-500
+                                @if(isset($activeEnrollment) && $activeEnrollment->status == 'Enrolled') text-green-500
+                                @elseif(isset($activeEnrollment) && $activeEnrollment->status == 'Approved') text-green-500
+                                @elseif(isset($activeEnrollment) && $activeEnrollment->status == 'Pending') text-yellow-500
                                 @elseif(Auth::user()->student && Auth::user()->student->status == 'Dropped') text-red-500
                                 @else text-gray-500 @endif"></i>
                         </div>
                         <div>
                             <p class="text-sm text-gray-500 uppercase font-medium">Enrollment Status</p>
                             <p class="text-xl font-bold">
-                                @if(Auth::user()->student)
+                                @if(isset($activeEnrollment))
+                                    {{ $activeEnrollment->status }}
+                                @elseif(Auth::user()->student)
                                     {{ Auth::user()->student->status }}
                                 @else
                                     Incomplete

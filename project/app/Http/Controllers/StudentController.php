@@ -113,9 +113,16 @@ class StudentController extends Controller
         }
         
         $student = $user->student;
+        
+        // Check for active enrollment (Pending, Approved, or Enrolled)
+        $activeEnrollment = $student->enrollments()
+            ->whereIn('status', ['Pending', 'Approved', 'Enrolled'])
+            ->orderBy('created_at', 'desc')
+            ->first();
+            
         $enrollments = $student->enrollments()->orderBy('created_at', 'desc')->get();
         
-        return view('student.dashboard', compact('student', 'enrollments'));
+        return view('student.dashboard', compact('student', 'enrollments', 'activeEnrollment'));
     }
 
     public function profile()
@@ -149,8 +156,7 @@ class StudentController extends Controller
         
         // Check if student already has a pending or active enrollment
         $activeEnrollment = $student->enrollments()
-                                   ->where('status', 'Pending')
-                                   ->orWhere('status', 'Enrolled')
+                                   ->whereIn('status', ['Pending', 'Approved', 'Enrolled'])
                                    ->latest()
                                    ->first();
         

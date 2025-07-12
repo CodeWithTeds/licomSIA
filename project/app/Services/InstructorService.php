@@ -12,11 +12,15 @@ class InstructorService
     /**
      * Get all instructors with their relationships
      *
-     * @return Collection
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getAllInstructors(): Collection
+    public function getAllInstructors($perPage = 10)
     {
-        return Instructor::with(['department', 'position'])->orderBy('last_name')->orderBy('first_name')->get();
+        return Instructor::with(['department', 'position'])
+            ->orderBy('last_name')
+            ->orderBy('first_name')
+            ->paginate($perPage);
     }
 
     /**

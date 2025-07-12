@@ -12,11 +12,14 @@ class CourseService
     /**
      * Get all courses with their relationships
      *
-     * @return Collection
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getAllCourses(): Collection
+    public function getAllCourses($perPage = 10)
     {
-        return Course::with(['program', 'instructor', 'prerequisite'])->orderBy('course_name')->get();
+        return Course::with(['program', 'instructor', 'prerequisite'])
+            ->orderBy('course_name')
+            ->paginate($perPage);
     }
 
     /**

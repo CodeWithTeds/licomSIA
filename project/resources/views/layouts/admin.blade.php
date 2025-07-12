@@ -106,10 +106,12 @@
                             <i class="fas fa-user-graduate w-5 mr-3 text-center"></i>
                             <span>Students</span>
                         </a>
-                        <a href="#" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
-                            <i class="fas fa-chalkboard-teacher w-5 h-5 mr-3"></i>
-                            <span class="text-sm font-medium">Faculty</span>
+
+                        <a href="{{ route('admin.enrollments.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.enrollments.*') ? 'active bg-gray-800 text-white' : '' }}">
+                            <i class="fas fa-clipboard-check w-5 mr-3 text-center"></i>
+                            <span>Enrollments</span>
                         </a>
+                        
                         <a href="{{ route('admin.programs.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.programs.*') ? 'active bg-gray-800 text-white' : '' }}">
                             <i class="fas fa-graduation-cap w-5 h-5 mr-3"></i>
                             <span class="text-sm font-medium">Programs</span>

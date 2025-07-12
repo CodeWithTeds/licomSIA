@@ -7,7 +7,9 @@ use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\EnrollmentController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +58,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Student routes
         Route::resource('students', StudentController::class);
+
+        // Admin Enrollment Routes
+        Route::get('/enrollments', [EnrollmentController::class, 'index'])->name('enrollments.index');
+        Route::get('/enrollments/pending', [EnrollmentController::class, 'pending'])->name('enrollments.pending');
+        Route::get('/enrollments/{enrollment}', [EnrollmentController::class, 'show'])->name('enrollments.show');
+        Route::post('/enrollments/{enrollment}/approve', [EnrollmentController::class, 'approve'])->name('enrollments.approve');
+
     });
 });
 
@@ -66,8 +75,8 @@ Route::prefix('student')->name('student.')->group(function () {
         return view('student.login');
     })->name('login');
     Route::post('/login', [StudentController::class, 'login'])->name('login.submit');
-    
-    
+
+
     // Registration routes
     Route::get('/register', function () {
         $programs = \App\Models\Program::all();
@@ -79,14 +88,19 @@ Route::prefix('student')->name('student.')->group(function () {
     Route::middleware(['auth', \App\Http\Middleware\StudentMiddleware::class])->group(function () {
         Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [StudentController::class, 'logout'])->name('logout');
-        
+
         // Profile routes
         Route::get('/profile', [StudentController::class, 'profile'])->name('profile');
         Route::put('/profile', [StudentController::class, 'updateProfile'])->name('profile.update');
-        
+
         // Enrollment routes
         Route::get('/enroll', [StudentController::class, 'showEnrollmentForm'])->name('enroll');
         Route::post('/enroll', [StudentController::class, 'processEnrollment'])->name('enrollment.store');
         Route::get('/enrollment/{enrollment}', [StudentController::class, 'showEnrollmentDetails'])->name('enrollment.show');
+
+        // Admission routes
+        Route::get('/admission', [StudentController::class, 'showAdmissionForm'])->name('admission.index');
+        Route::post('/admission', [StudentController::class, 'processAdmission'])->name('admission.store');
+        Route::get('/admission/{admission}', [StudentController::class, 'showAdmissionDetails'])->name('admission.show');
     });
 });
