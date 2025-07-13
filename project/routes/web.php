@@ -6,6 +6,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\EnrollmentController;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/enrollments/pending', [EnrollmentController::class, 'pending'])->name('enrollments.pending');
         Route::get('/enrollments/{enrollment}', [EnrollmentController::class, 'show'])->name('enrollments.show');
         Route::post('/enrollments/{enrollment}/approve', [EnrollmentController::class, 'approve'])->name('enrollments.approve');
+
+        // Schedule routes
+        Route::resource('schedules', ScheduleController::class);
 
     });
 });

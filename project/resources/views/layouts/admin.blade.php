@@ -146,9 +146,9 @@
                 <div class="py-4">
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Management</p>
                     <nav>
-                        <a href="#" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <a href="{{ route('admin.schedules.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.schedules.*') ? 'active bg-gray-800 text-white' : '' }}">
                             <i class="fas fa-calendar-alt w-5 h-5 mr-3"></i>
-                            <span class="text-sm font-medium">Schedule</span>
+                            <span class="text-sm font-medium">Schedules</span>
                         </a>
                         <a href="#" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
                             <i class="fas fa-clipboard-list w-5 h-5 mr-3"></i>
