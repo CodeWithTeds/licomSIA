@@ -1,16 +1,12 @@
 @extends('layouts.student')
 
-@section('content')
-<div class="container mx-auto max-w-4xl py-8 px-4">
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Enrollment Details</h1>
-            <a href="{{ route('student.dashboard') }}" class="text-primary hover:text-blue-800 flex items-center">
-                <i class="fas fa-arrow-left mr-1"></i> Back to Dashboard
-            </a>
-        </div>
+@section('title', 'Enrollment Details')
 
-        @if(session('success'))
+@section('content')
+<div class="bg-white p-8 rounded-lg shadow-md">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">Enrollment Details</h1>
+
+    @if (session('success'))
             <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
                 <p>{{ session('success') }}</p>
             </div>
@@ -228,6 +224,11 @@
                     <p class="text-gray-600">No courses enrolled.</p>
                 </div>
             @endif
+        </div>
+        <div class="flex justify-end mt-6">
+            <a href="{{ route('student.dashboard') }}" class="text-primary hover:text-primary-dark font-medium">
+                &larr; Back to Dashboard
+            </a>
         </div>
     </div>
 </div>

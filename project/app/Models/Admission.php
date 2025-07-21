@@ -12,6 +12,7 @@ class Admission extends Model
     protected $primaryKey = 'admission_id';
 
     protected $fillable = [
+        'user_id',
         'last_name',
         'first_name',
         'middle_name',
@@ -23,7 +24,6 @@ class Admission extends Model
         'citizenship',
         'mobile_number',
         'email',
-        'password',
         'father_last_name',
         'father_first_name',
         'father_middle_name',
@@ -54,4 +54,9 @@ class Admission extends Model
     protected $hidden = [
         'password',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

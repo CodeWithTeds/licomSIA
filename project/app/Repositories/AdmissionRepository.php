@@ -9,8 +9,6 @@ class AdmissionRepository
 {
     public function create(array $data): Admission
     {
-        $data['password'] = Hash::make($data['password']);
-
         return Admission::create($data);
     }
 } 

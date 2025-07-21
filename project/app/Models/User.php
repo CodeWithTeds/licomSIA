@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasOne(Student::class);
     }
 
+    public function admissions()
+    {
+        return $this->hasMany(Admission::class);
+    }
+
     /**
      * Check if user is an admin.
      */

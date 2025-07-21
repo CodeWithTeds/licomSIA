@@ -7,6 +7,7 @@ use App\Http\Requests\StudentRequest;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentCourse;
+use App\Models\Instructor;
 use App\Models\Program;
 use App\Models\Schedule;
 use App\Models\Student;
@@ -104,25 +105,19 @@ class StudentController extends Controller
     // Student Dashboard Methods
     public function dashboard()
     {
-        $user = Auth::user();
-        
-        if (!$user || !$user->student) {
-            // If there's no student profile, redirect to login
-            return redirect()->route('student.login')
-                ->with('error', 'Student profile not found. Please contact the administrator.');
-        }
-        
-        $student = $user->student;
-        
-        // Check for active enrollment (Pending, Approved, or Enrolled)
-        $activeEnrollment = $student->enrollments()
-            ->whereIn('status', ['Pending', 'Approved', 'Enrolled'])
-            ->orderBy('created_at', 'desc')
-            ->first();
-            
-        $enrollments = $student->enrollments()->orderBy('created_at', 'desc')->get();
-        
-        return view('student.dashboard', compact('student', 'enrollments', 'activeEnrollment'));
+        $student = Auth::user()->student;
+        $studentCount = Student::count();
+        $instructorCount = Instructor::count();
+        $courseCount = Course::count();
+        $programCount = Program::count();
+
+        return view('student.dashboard', compact(
+            'student',
+            'studentCount',
+            'instructorCount',
+            'courseCount',
+            'programCount'
+        ));
     }
 
     public function profile()

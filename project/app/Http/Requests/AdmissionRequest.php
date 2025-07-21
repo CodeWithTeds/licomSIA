@@ -33,7 +33,6 @@ class AdmissionRequest extends FormRequest
             'citizenship' => 'required|string|max:255',
             'mobile_number' => 'required|string|max:20',
             'email' => 'required|string|email|max:100|unique:admissions,email',
-            'password' => 'required|string|min:8',
             'father_last_name' => 'required|string|max:100',
             'father_first_name' => 'required|string|max:100',
             'father_middle_name' => 'nullable|string|max:100',
