@@ -10,6 +10,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\EnrollmentController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admission\AdmissionController;
 
 
 /*
@@ -32,6 +33,10 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('login');
 })->name('login');
+
+// Admission routes
+Route::get('/admission', [AdmissionController::class, 'create'])->name('admission.create');
+Route::post('/admission', [AdmissionController::class, 'store'])->name('admission.store');
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {

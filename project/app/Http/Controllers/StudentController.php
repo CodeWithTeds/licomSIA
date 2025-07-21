@@ -293,9 +293,9 @@ class StudentController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'gender' => $request->gender,
-                'birthdate' => $request->birth_date,
+                'birthdate' => $request->birthdate,
                 'address' => $request->address,
-                'contact_number' => $request->contact,
+                'contact_number' => $request->contact_number,
                 'email' => $request->email,
                 'program_id' => $request->program_id,
                 'year_level' => $request->year_level,
@@ -308,6 +308,7 @@ class StudentController extends Controller
             Auth::login($user);
             
             return redirect()->route('student.dashboard')->with('success', 'Registration successful! Welcome to our institution.');
+        
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred during registration: ' . $e->getMessage())->withInput();

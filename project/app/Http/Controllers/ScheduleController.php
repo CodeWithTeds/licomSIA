@@ -25,7 +25,6 @@ class ScheduleController extends Controller
     public function __construct(ScheduleService $scheduleService)
     {
         $this->scheduleService = $scheduleService;
-        $this->middleware('admin');
     }
 
     /**

@@ -87,13 +87,13 @@
                     </div>
 
                     <div class="mt-4">
-                        <label for="birth_date" class="block text-sm font-medium text-gray-700 mb-1">Birth Date</label>
-                        <input id="birth_date" name="birth_date" type="date" required 
+                        <label for="birthdate" class="block text-sm font-medium text-gray-700 mb-1">Birth Date</label>
+                        <input id="birthdate" name="birthdate" type="date" required 
                             class="block w-full px-3 py-2 border border-gray-300 
                             rounded-lg text-gray-900 focus:outline-none focus:ring-2
                             focus:ring-primary focus:border-primary transition duration-150" 
-                            value="{{ old('birth_date') }}">
-                        @error('birth_date')
+                            value="{{ old('birthdate') }}">
+                        @error('birthdate')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
@@ -111,13 +111,13 @@
                     </div>
                     
                     <div class="mt-4">
-                        <label for="contact" class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
-                        <input id="contact" name="contact" type="text" required 
+                        <label for="contact_number" class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                        <input id="contact_number" name="contact_number" type="text" required 
                             class="block w-full px-3 py-2 border border-gray-300 
                             rounded-lg text-gray-900 focus:outline-none focus:ring-2
                             focus:ring-primary focus:border-primary transition duration-150" 
-                            placeholder="09XXXXXXXXX" value="{{ old('contact') }}">
-                        @error('contact')
+                            placeholder="09XXXXXXXXX" value="{{ old('contact_number') }}">
+                        @error('contact_number')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
