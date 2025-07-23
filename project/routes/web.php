@@ -74,6 +74,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Schedule routes
         Route::resource('schedules', ScheduleController::class);
 
+        // Admission routes
+        Route::resource('admissions', AdmissionController::class)->except(['create', 'store']);
+        Route::post('admissions/{admission}/approve', [AdmissionController::class, 'approve'])->name('admissions.approve');
+        Route::post('admissions/{admission}/reject', [AdmissionController::class, 'reject'])->name('admissions.reject');
+
     });
 });
 

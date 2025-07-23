@@ -169,12 +169,12 @@
                             </select>
                         </div>
                          <div>
-                            <label for="program_applied_for" class="block text-sm font-medium text-gray-700">Program Applied For</label>
-                            <select name="program_applied_for" id="program_applied_for" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" required>
+                            <label for="program_id" class="block text-sm font-medium text-gray-700">Program Applied For</label>
+                            <select name="program_id" id="program_id" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" required>
                                 <option value="">Select Program</option>
                                 @if(isset($programs))
                                     @foreach($programs as $program)
-                                        <option value="{{ $program->program_name }}">{{ $program->program_name }}</option>
+                                        <option value="{{ $program->program_id }}">{{ $program->program_name }}</option>
                                     @endforeach
                                 @endif
                             </select>

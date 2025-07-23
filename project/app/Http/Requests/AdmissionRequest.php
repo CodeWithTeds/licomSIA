@@ -54,7 +54,7 @@ class AdmissionRequest extends FormRequest
             'disability' => 'nullable|string',
             'admission_type' => 'required|string|max:50',
             'last_school_attended' => 'required|string|max:150',
-            'program_applied_for' => 'required|string|max:100',
+            'program_id' => 'required|exists:programs,program_id',
             'school_year_applied' => 'required|string|max:20',
             'upload_requirements' => 'nullable|string',
         ];

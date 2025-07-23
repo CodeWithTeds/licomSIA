@@ -11,4 +11,9 @@ class AdmissionRepository
     {
         return Admission::create($data);
     }
+
+    public function getAll()
+    {
+        return Admission::with('program')->latest()->get();
+    }
 } 

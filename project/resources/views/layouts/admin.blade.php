@@ -102,6 +102,10 @@
                 <div class="py-4">
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Academic</p>
                     <nav>
+                        <a href="{{ route('admin.admissions.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.admissions.*') ? 'active bg-gray-800 text-white' : '' }}">
+                            <i class="fas fa-file-alt w-5 mr-3 text-center"></i>
+                            <span>Admissions</span>
+                        </a>
                         <a href="{{ route('admin.students.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.students.*') ? 'active bg-gray-800 text-white' : '' }}">
                             <i class="fas fa-user-graduate w-5 mr-3 text-center"></i>
                             <span>Students</span>
@@ -228,6 +232,10 @@
                     <div class="py-4">
                         <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Academic</p>
                         <nav>
+                            <a href="{{ route('admin.admissions.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.admissions.*') ? 'active bg-gray-800 text-white' : '' }}">
+                                <i class="fas fa-file-alt w-5 mr-3 text-center"></i>
+                                <span>Admissions</span>
+                            </a>
                             <a href="{{ route('admin.students.index') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.students.*') ? 'active bg-gray-800 text-white' : '' }}">
                                 <i class="fas fa-user-graduate w-5 mr-3 text-center"></i>
                                 <span>Students</span>

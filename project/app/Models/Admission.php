@@ -45,7 +45,7 @@ class Admission extends Model
         'disability',
         'admission_type',
         'last_school_attended',
-        'program_applied_for',
+        'program_id',
         'school_year_applied',
         'upload_requirements',
         'application_status',
@@ -58,5 +58,15 @@ class Admission extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function program()
+    {
+        return $this->belongsTo(Program::class, 'program_id', 'program_id');
+    }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class, 'user_id', 'user_id');
     }
 }
