@@ -8,6 +8,7 @@ use App\Models\Instructor;
 use App\Models\Position;
 use App\Services\InstructorService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -63,6 +64,7 @@ class InstructorController extends Controller
     public function store(InstructorRequest $request): RedirectResponse
     {
         $validatedData = $request->validated();
+        $validatedData['password'] = Hash::make($validatedData['password']);
         $instructor = Instructor::create($validatedData);
 
         return redirect()->route('admin.instructors.index')
@@ -93,6 +95,9 @@ class InstructorController extends Controller
     public function update(InstructorRequest $request, Instructor $instructor)
     {
         $validatedData = $request->validated();
+        if (isset($validatedData['password'])) {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+        }
         $instructor->update($validatedData);
 
         return redirect()->route('admin.instructors.index')

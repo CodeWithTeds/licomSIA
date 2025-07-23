@@ -21,9 +21,13 @@ class InstructorRequest extends FormRequest
      */
     public function rules(): array
     {
+        $instructorId = $this->route('instructor') ? $this->route('instructor')->instructor_id : null;
+
         return [
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
+            'email' => 'required|email|unique:instructors,email,' . $instructorId . ',instructor_id',
+            'password' => 'nullable|string|min:8',
             'department_id' => 'required|exists:departments,id',
             'position_id' => 'required|exists:positions,id',
         ];
@@ -39,6 +43,8 @@ class InstructorRequest extends FormRequest
         return [
             'first_name' => 'first name',
             'last_name' => 'last name',
+            'email' => 'email',
+            'password' => 'password',
             'department_id' => 'department',
             'position_id' => 'position',
         ];
