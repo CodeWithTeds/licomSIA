@@ -118,3 +118,16 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::get('/admission/{admission}', [StudentController::class, 'showAdmissionDetails'])->name('admission.show');
     });
 });
+
+// Teacher routes
+Route::prefix('teacher')->name('teacher.')->group(function () {
+    Route::middleware('guest:instructor')->group(function () {
+        Route::get('/login', 'App\Http\Controllers\Auth\InstructorAuthController@showLoginForm')->name('login');
+        Route::post('/login', 'App\Http\Controllers\Auth\InstructorAuthController@login')->name('login.submit');
+    });
+    
+    Route::middleware('auth:instructor')->group(function () {
+        Route::get('/dashboard', 'App\Http\Controllers\Auth\InstructorAuthController@dashboard')->name('dashboard');
+        Route::post('/logout', 'App\Http\Controllers\Auth\InstructorAuthController@logout')->name('logout');
+    });
+});
