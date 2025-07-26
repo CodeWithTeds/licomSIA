@@ -59,4 +59,40 @@
         </form>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const studentSelect = document.getElementById('student_id');
+        const courseSelect = document.getElementById('course_id');
+        const studentCourseMap = @json($studentCourseMap);
+        const courses = @json($courses);
+
+        function updateCourseOptions() {
+            const selectedStudentId = studentSelect.value;
+            const availableCourseIds = studentCourseMap[selectedStudentId] || [];
+            
+            // Clear existing options
+            courseSelect.innerHTML = '<option value="">Select a course</option>';
+
+            // Add new options
+            courses.forEach(course => {
+                if (availableCourseIds.includes(course.course_id)) {
+                    const option = document.createElement('option');
+                    option.value = course.course_id;
+                    option.textContent = course.course_name;
+                    courseSelect.appendChild(option);
+                }
+            });
+        }
+
+        studentSelect.addEventListener('change', updateCourseOptions);
+
+        // Initial call to populate courses if a student is already selected (e.g., on validation error)
+        if (studentSelect.value) {
+            updateCourseOptions();
+        }
+    });
+</script>
+@endpush
 @endsection 

@@ -138,6 +138,8 @@
                 @yield('content')
             </main>
         </div>
+
+        @stack('scripts')
     </div>
 
     <script>

@@ -22,8 +22,15 @@ class GradeController extends Controller
         /** @var \App\Models\Instructor $instructor */
         $instructor = Auth::guard('instructor')->user();
         $students = $instructor->students()->get();
-        $courses = Course::where('instructor_id', Auth::guard('instructor')->id())->get();
-        return view('teacher.grades.create', compact('students', 'courses'));
+        $courses = $instructor->courses()->get();
+
+        $studentCourseMap = [];
+        foreach ($students as $student) {
+            $enrolledCourseIds = $student->enrollments()->with('courses')->get()->pluck('courses')->flatten()->pluck('course_id');
+            $studentCourseMap[$student->student_id] = $enrolledCourseIds->intersect($courses->pluck('course_id'))->values();
+        }
+
+        return view('teacher.grades.create', compact('students', 'courses', 'studentCourseMap'));
     }
 
     public function store(Request $request)
@@ -58,8 +65,15 @@ class GradeController extends Controller
         /** @var \App\Models\Instructor $instructor */
         $instructor = Auth::guard('instructor')->user();
         $students = $instructor->students()->get();
-        $courses = Course::where('instructor_id', Auth::guard('instructor')->id())->get();
-        return view('teacher.grades.edit', compact('grade', 'students', 'courses'));
+        $courses = $instructor->courses()->get();
+
+        $studentCourseMap = [];
+        foreach ($students as $student) {
+            $enrolledCourseIds = $student->enrollments()->with('courses')->get()->pluck('courses')->flatten()->pluck('course_id');
+            $studentCourseMap[$student->student_id] = $enrolledCourseIds->intersect($courses->pluck('course_id'))->values();
+        }
+
+        return view('teacher.grades.edit', compact('grade', 'students', 'courses', 'studentCourseMap'));
     }
 
     public function update(Request $request, Grade $grade)
