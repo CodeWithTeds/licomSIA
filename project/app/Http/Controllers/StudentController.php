@@ -228,7 +228,9 @@ class StudentController extends Controller
             abort(403, 'Unauthorized action.');
         }
         
-        $enrollment->load(['enrollmentCourses.course', 'enrollmentCourses.course.schedules']);
+        $enrollment->load(['enrollmentCourses.course.schedules', 'enrollmentCourses.course.grades' => function ($query) use ($student) {
+            $query->where('student_id', $student->student_id);
+        }]);
         
         return view('student.enrollment.show', compact('enrollment'));
     }

@@ -168,8 +168,8 @@
                             <tr>
                                 <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
                                 <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Units</th>
-                                <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year Level</th>
                                 <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Schedule</th>
+                                <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prelim</th>
                                 <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Midterm</th>
                                 <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Finals</th>
                                 <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remarks</th>
@@ -177,10 +177,12 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach($enrollment->enrollmentCourses as $enrollmentCourse)
+                                @php
+                                    $grade = $enrollmentCourse->course->grades->first();
+                                @endphp
                                 <tr class="hover:bg-gray-50">
                                     <td class="py-3 px-4 text-sm text-gray-900">{{ $enrollmentCourse->course->course_name }}</td>
                                     <td class="py-3 px-4 text-sm text-gray-900">{{ $enrollmentCourse->course->units }}</td>
-                                    <td class="py-3 px-4 text-sm text-gray-900">{{ $enrollmentCourse->course->year_level }}</td>
                                     <td class="py-3 px-4 text-sm text-gray-500">
                                         @if($enrollmentCourse->course->schedules && $enrollmentCourse->course->schedules->count() > 0)
                                             @foreach($enrollmentCourse->course->schedules as $schedule)
@@ -193,26 +195,17 @@
                                             <span class="text-gray-400">TBA</span>
                                         @endif
                                     </td>
+                                    <td class="py-3 px-4 text-sm text-gray-900">{{ $grade->prelim_grade ?? '-' }}</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900">{{ $grade->midterm_grade ?? '-' }}</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900">{{ $grade->final_grade ?? '-' }}</td>
                                     <td class="py-3 px-4 text-sm text-gray-900">
-                                        @if($enrollmentCourse->grade_midterm)
-                                            {{ $enrollmentCourse->grade_midterm }}
-                                        @else
-                                            <span class="text-gray-400">-</span>
-                                        @endif
-                                    </td>
-                                    <td class="py-3 px-4 text-sm text-gray-900">
-                                        @if($enrollmentCourse->grade_finals)
-                                            {{ $enrollmentCourse->grade_finals }}
-                                        @else
-                                            <span class="text-gray-400">-</span>
-                                        @endif
-                                    </td>
-                                    <td class="py-3 px-4 text-sm text-gray-900">
-                                        @if($enrollmentCourse->remarks)
-                                            {{ $enrollmentCourse->remarks }}
-                                        @else
-                                            <span class="text-gray-400">-</span>
-                                        @endif
+                                        <span class="px-2 py-1 text-xs rounded-full 
+                                            @if($grade && $grade->remarks == 'Passed') bg-green-100 text-green-800
+                                            @elseif($grade && $grade->remarks == 'Failed') bg-red-100 text-red-800
+                                            @else bg-gray-100 text-gray-800
+                                            @endif">
+                                            {{ $grade->remarks ?? '-' }}
+                                        </span>
                                     </td>
                                 </tr>
                             @endforeach

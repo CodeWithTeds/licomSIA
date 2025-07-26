@@ -51,4 +51,9 @@ class Course extends Model
             ->withPivot(['grade_midterm', 'grade_finals', 'remarks'])
             ->withTimestamps();
     }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class, 'course_id', 'course_id');
+    }
 }

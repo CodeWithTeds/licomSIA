@@ -13,16 +13,16 @@ class GradeController extends Controller
 {
     public function index()
     {
-        $grades = Grade::with(['student', 'course'])->where('instructor_id', Auth::id())->get();
+        $grades = Grade::with(['student', 'course'])->where('instructor_id', Auth::guard('instructor')->id())->get();
         return view('teacher.grades.index', compact('grades'));
     }
 
     public function create()
     {
         /** @var \App\Models\Instructor $instructor */
-        $instructor = Auth::user();
+        $instructor = Auth::guard('instructor')->user();
         $students = $instructor->students()->get();
-        $courses = Course::where('instructor_id', Auth::id())->get();
+        $courses = Course::where('instructor_id', Auth::guard('instructor')->id())->get();
         return view('teacher.grades.create', compact('students', 'courses'));
     }
 
@@ -42,7 +42,7 @@ class GradeController extends Controller
         Grade::create([
             'student_id' => $request->student_id,
             'course_id' => $request->course_id,
-            'instructor_id' => Auth::id(),
+            'instructor_id' => Auth::guard('instructor')->id(),
             'prelim_grade' => $request->prelim_grade,
             'midterm_grade' => $request->midterm_grade,
             'final_grade' => $request->final_grade,
@@ -56,9 +56,9 @@ class GradeController extends Controller
     public function edit(Grade $grade)
     {
         /** @var \App\Models\Instructor $instructor */
-        $instructor = Auth::user();
+        $instructor = Auth::guard('instructor')->user();
         $students = $instructor->students()->get();
-        $courses = Course::where('instructor_id', Auth::id())->get();
+        $courses = Course::where('instructor_id', Auth::guard('instructor')->id())->get();
         return view('teacher.grades.edit', compact('grade', 'students', 'courses'));
     }
 
