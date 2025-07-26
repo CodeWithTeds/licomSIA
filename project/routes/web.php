@@ -11,6 +11,8 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\EnrollmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admission\AdmissionController;
+use App\Http\Controllers\Auth\InstructorAuthController;
+use App\Http\Controllers\Teacher\GradeController;
 
 
 /*
@@ -128,6 +130,10 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     
     Route::middleware('auth:instructor')->group(function () {
         Route::get('/dashboard', 'App\Http\Controllers\Auth\InstructorAuthController@dashboard')->name('dashboard');
+        Route::get('/my-courses', 'App\Http\Controllers\Auth\InstructorAuthController@myCourses')->name('my_courses');
+        Route::get('/my-students', 'App\Http\Controllers\Auth\InstructorAuthController@myStudents')->name('my_students');
+        Route::get('/my-schedule', 'App\Http\Controllers\Auth\InstructorAuthController@mySchedule')->name('my_schedule');
         Route::post('/logout', 'App\Http\Controllers\Auth\InstructorAuthController@logout')->name('logout');
+        Route::resource('grades', GradeController::class);
     });
 });

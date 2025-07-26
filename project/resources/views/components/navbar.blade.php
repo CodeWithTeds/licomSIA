@@ -30,7 +30,7 @@
                 <a href="#programs" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-[#343434]">Programs</a>
                 <a href="#testimonials" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-[#343434]">Testimonials</a>
                 <a href="#contact" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-[#343434]">Contact</a>
-                <a href="/login" class="ml-4 px-4 py-2 rounded-md text-sm font-medium bg-[#2768bc] hover:bg-[#578eb7] text-white">Login</a>
+                <a href="student/login" class="ml-4 px-4 py-2 rounded-md text-sm font-medium bg-[#2768bc] hover:bg-[#578eb7] text-white">Login</a>
             </div>
         </div>
     </div>

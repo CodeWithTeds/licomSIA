@@ -73,6 +73,34 @@ class Instructor extends Authenticatable
         return $this->hasMany(Course::class, 'instructor_id', 'instructor_id');
     }
 
+    public function students()
+    {
+        // Get the IDs of courses taught by this instructor
+        $courseIds = $this->courses()->pluck('course_id');
+
+        // Get the enrollment IDs that include any of these courses
+        $enrollmentIds = \App\Models\EnrollmentCourse::whereIn('course_id', $courseIds)
+            ->pluck('enrollment_id');
+
+        // Get the student IDs from these enrollments, where the status is 'Enrolled' or 'Approved'
+        $studentIds = \App\Models\Enrollment::whereIn('enrollment_id', $enrollmentIds)
+            ->whereIn('status', ['Enrolled', 'Approved'])
+            ->pluck('student_id');
+
+        // Return the student query builder for these student IDs
+        return Student::whereIn('student_id', $studentIds);
+    }
+
+    public function schedules()
+    {
+        return $this->hasManyThrough(Schedule::class, Course::class, 'instructor_id', 'course_id', 'instructor_id', 'course_id');
+    }
+
+    public function today_schedules()
+    {
+        return $this->schedules()->where('day', now()->format('l'));
+    }
+
     /**
      * Get the full name of the instructor.
      */
