@@ -19,10 +19,11 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             DepartmentSeeder::class,
             PositionSeeder::class,
+            ProgramSeeder::class,
             InstructorSeeder::class,
             CourseSeeder::class,
-            ProgramSeeder::class,
             StudentSeeder::class,
+            ScheduleSeeder::class,
         ]);
 
         User::factory()->create([

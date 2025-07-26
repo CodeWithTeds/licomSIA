@@ -73,8 +73,17 @@ class InstructorAuthController extends Controller
     {
         /** @var \App\Models\Instructor $instructor */
         $instructor = Auth::guard('instructor')->user();
-        $schedules = $instructor->schedules()->with('course')->paginate(10);
-        return view('teacher.my_schedule', compact('schedules'));
+        $schedules = $instructor->schedules()->with('course')->get();
+
+        $daysOfWeek = [
+            'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+        ];
+
+        $scheduleByDay = collect($daysOfWeek)->mapWithKeys(function ($day) use ($schedules) {
+            return [$day => $schedules->where('day', $day)->sortBy('start_time')];
+        });
+
+        return view('teacher.my_schedule', compact('scheduleByDay'));
     }
 
     public function logout(Request $request)

@@ -13,10 +13,12 @@
                 A centralized digital platform to manage school admissions with ease — from discovery to enrollment.
             </p>
             <div class="mt-8 flex space-x-4">
-                <a href="{{ route('admission.create') }}" class="px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary/90 transition">
-                    Apply Now
+                <a href="{{ route('student.enroll') }}" class="px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary/90 transition">
+                    Enroll Now
                 </a>
-               
+                <a href="{{ route('student.admission.index') }}" class="px-6 py-3 bg-secondary text-white font-semibold rounded-lg shadow-md hover:bg-secondary/90 transition">
+                    Admission Now
+                </a>
             </div>
         </div>
         <div class="md:w-1/2 flex justify-center items-center p-8">
@@ -71,6 +73,28 @@
                     <p class="text-gray-500">Programs</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Quick Links Section -->
+    <section class="mt-20">
+        <div class="p-6 text-gray-900">
+            <h2 class="text-2xl font-bold mb-4">Welcome, {{ Auth::user()->name }}!</h2>
+            <p>This is your student dashboard. You can view your grades, admission status, and evaluate your instructors here.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+            <a href="#" class="bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition">
+                <h3 class="text-xl font-bold">My Grades</h3>
+                <p>View your academic performance.</p>
+            </a>
+            <a href="{{ route('student.admission.index') }}" class="bg-green-500 text-white p-6 rounded-lg shadow-md hover:bg-green-600 transition">
+                <h3 class="text-xl font-bold">My Admission</h3>
+                <p>Check your admission status.</p>
+            </a>
+            <a href="{{ route('student.evaluations.index') }}" class="bg-yellow-500 text-white p-6 rounded-lg shadow-md hover:bg-yellow-600 transition">
+                <h3 class="text-xl font-bold">Instructor Evaluation</h3>
+                <p>Evaluate your instructors.</p>
+            </a>
         </div>
     </section>
 @endsection

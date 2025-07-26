@@ -46,6 +46,12 @@ class Student extends Model
         return $this->hasMany(Enrollment::class, 'student_id', 'student_id');
     }
 
+    public function instructors()
+    {
+        $courseIds = $this->enrollments()->with('courses')->get()->pluck('courses')->flatten()->pluck('course_id')->unique();
+        return Instructor::whereIn('instructor_id', Course::whereIn('course_id', $courseIds)->pluck('instructor_id'))->get();
+    }
+
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->middle_name} {$this->last_name}";

@@ -19,6 +19,11 @@ class Schedule extends Model
         'room',
     ];
 
+    protected $casts = [
+        'time_start' => 'datetime',
+        'time_end' => 'datetime',
+    ];
+
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id', 'course_id');

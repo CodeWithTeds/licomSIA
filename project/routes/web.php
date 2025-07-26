@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admission\AdmissionController;
 use App\Http\Controllers\Auth\InstructorAuthController;
 use App\Http\Controllers\Teacher\GradeController;
+use App\Http\Controllers\Student\EvaluationController;
 
 
 /*
@@ -118,22 +119,25 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::get('/admission', [StudentController::class, 'showAdmissionForm'])->name('admission.index');
         Route::post('/admission', [StudentController::class, 'processAdmission'])->name('admission.store');
         Route::get('/admission/{admission}', [StudentController::class, 'showAdmissionDetails'])->name('admission.show');
+
+        // Evaluation routes
+        Route::resource('evaluations', EvaluationController::class);
     });
 });
 
 // Teacher routes
 Route::prefix('teacher')->name('teacher.')->group(function () {
-    Route::middleware('guest:instructor')->group(function () {
-        Route::get('/login', 'App\Http\Controllers\Auth\InstructorAuthController@showLoginForm')->name('login');
-        Route::post('/login', 'App\Http\Controllers\Auth\InstructorAuthController@login')->name('login.submit');
-    });
-    
-    Route::middleware('auth:instructor')->group(function () {
-        Route::get('/dashboard', 'App\Http\Controllers\Auth\InstructorAuthController@dashboard')->name('dashboard');
-        Route::get('/my-courses', 'App\Http\Controllers\Auth\InstructorAuthController@myCourses')->name('my_courses');
-        Route::get('/my-students', 'App\Http\Controllers\Auth\InstructorAuthController@myStudents')->name('my_students');
-        Route::get('/my-schedule', 'App\Http\Controllers\Auth\InstructorAuthController@mySchedule')->name('my_schedule');
-        Route::post('/logout', 'App\Http\Controllers\Auth\InstructorAuthController@logout')->name('logout');
+    Route::get('/login', [InstructorAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [InstructorAuthController::class, 'login'])->name('login.submit');
+
+    Route::middleware('teacher')->group(function () {
+        Route::get('dashboard', [InstructorAuthController::class, 'dashboard'])->name('dashboard');
+        Route::post('/logout', [InstructorAuthController::class, 'logout'])->name('logout');
+        Route::get('my_courses', [InstructorAuthController::class, 'myCourses'])->name('my_courses');
+        Route::get('my_students', [InstructorAuthController::class, 'myStudents'])->name('my_students');
+        Route::get('my_schedule', [InstructorAuthController::class, 'mySchedule'])->name('my_schedule');
         Route::resource('grades', GradeController::class);
     });
 });
+
+
