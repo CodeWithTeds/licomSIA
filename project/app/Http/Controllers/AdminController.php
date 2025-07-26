@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use App\Models\Student;
+use App\Models\Instructor;
+use App\Models\Course;
+use App\Models\Program;
 
 class AdminController extends Controller
 {
@@ -51,7 +55,19 @@ class AdminController extends Controller
      */
     public function dashboard(): View
     {
-        return view('admin.dashboard');
+        $studentCount = Student::count();
+        $instructorCount = Instructor::count();
+        $courseCount = Course::count();
+        $programCount = Program::count();
+        $recentEnrollments = Student::where('status', 'Enrolled')->latest()->take(5)->get();
+
+        return view('admin.dashboard', compact(
+            'studentCount',
+            'instructorCount',
+            'courseCount',
+            'programCount',
+            'recentEnrollments'
+        ));
     }
     
     /**

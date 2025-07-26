@@ -9,6 +9,7 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\Admin\GradeController as AdminGradeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admission\AdmissionController;
 use App\Http\Controllers\Auth\InstructorAuthController;
@@ -76,6 +77,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Schedule routes
         Route::resource('schedules', ScheduleController::class);
+
+        // Grades routes
+        Route::get('/grades', [AdminGradeController::class, 'index'])->name('grades.index');
+        Route::get('/grades/{student}', [AdminGradeController::class, 'show'])->name('grades.show');
 
         // Admission routes
         Route::resource('admissions', AdmissionController::class)->except(['create', 'store']);

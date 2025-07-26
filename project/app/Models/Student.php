@@ -52,6 +52,11 @@ class Student extends Model
         return Instructor::whereIn('instructor_id', Course::whereIn('course_id', $courseIds)->pluck('instructor_id'))->get();
     }
 
+    public function admission()
+    {
+        return $this->hasOne(Admission::class, 'user_id', 'user_id');
+    }
+
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->middle_name} {$this->last_name}";

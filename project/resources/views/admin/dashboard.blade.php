@@ -12,11 +12,11 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500 uppercase font-semibold">Students</p>
-                    <p class="text-2xl font-bold">245</p>
+                    <p class="text-2xl font-bold">{{ $studentCount }}</p>
                 </div>
             </div>
             <div class="mt-4">
-                <a href="#" class="text-sm text-primary hover:underline">View all students</a>
+                <a href="{{ route('admin.students.index') }}" class="text-sm text-primary hover:underline">View all students</a>
             </div>
         </div>
 
@@ -27,7 +27,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500 uppercase font-semibold">Instructors</p>
-                    <p class="text-2xl font-bold">18</p>
+                    <p class="text-2xl font-bold">{{ $instructorCount }}</p>
                 </div>
             </div>
             <div class="mt-4">
@@ -42,11 +42,11 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500 uppercase font-semibold">Courses</p>
-                    <p class="text-2xl font-bold">36</p>
+                    <p class="text-2xl font-bold">{{ $courseCount }}</p>
                 </div>
             </div>
             <div class="mt-4">
-                <a href="#" class="text-sm text-primary hover:underline">View all courses</a>
+                <a href="{{ route('admin.courses.index') }}" class="text-sm text-primary hover:underline">View all courses</a>
             </div>
         </div>
 
@@ -57,85 +57,46 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500 uppercase font-semibold">Programs</p>
-                    <p class="text-2xl font-bold">12</p>
+                    <p class="text-2xl font-bold">{{ $programCount }}</p>
                 </div>
             </div>
             <div class="mt-4">
-                <a href="#" class="text-sm text-primary hover:underline">View all programs</a>
+                <a href="{{ route('admin.programs.index') }}" class="text-sm text-primary hover:underline">View all programs</a>
             </div>
         </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Recent Activities -->
+        <!-- Recently Enrolled Students -->
         <div class="col-span-2 bg-white rounded-lg shadow-sm p-6">
-            <h3 class="text-lg font-semibold text-dark mb-4">Recent Activities</h3>
-            <div class="overflow-hidden">
-                <ul class="divide-y divide-gray-200">
-                    <li class="py-3">
-                        <div class="flex items-start">
-                            <div class="rounded-full bg-blue-100 p-2 mr-3">
-                                <i class="fas fa-user-plus text-primary"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold">New student registration</p>
-                                <p class="text-xs text-gray-500">John Doe registered as a new student</p>
-                                <p class="text-xs text-gray-400 mt-1">10 minutes ago</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="py-3">
-                        <div class="flex items-start">
-                            <div class="rounded-full bg-green-100 p-2 mr-3">
-                                <i class="fas fa-file-alt text-green-500"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold">Grade submitted</p>
-                                <p class="text-xs text-gray-500">Prof. Smith submitted grades for Mathematics 101</p>
-                                <p class="text-xs text-gray-400 mt-1">1 hour ago</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="py-3">
-                        <div class="flex items-start">
-                            <div class="rounded-full bg-yellow-100 p-2 mr-3">
-                                <i class="fas fa-calendar-plus text-yellow-600"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold">Schedule updated</p>
-                                <p class="text-xs text-gray-500">Computer Science classes rescheduled for next week</p>
-                                <p class="text-xs text-gray-400 mt-1">3 hours ago</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="py-3">
-                        <div class="flex items-start">
-                            <div class="rounded-full bg-red-100 p-2 mr-3">
-                                <i class="fas fa-exclamation-circle text-red-500"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold">System alert</p>
-                                <p class="text-xs text-gray-500">Database backup completed successfully</p>
-                                <p class="text-xs text-gray-400 mt-1">5 hours ago</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="py-3">
-                        <div class="flex items-start">
-                            <div class="rounded-full bg-purple-100 p-2 mr-3">
-                                <i class="fas fa-book text-purple-500"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold">New course added</p>
-                                <p class="text-xs text-gray-500">Advanced Web Development added to curriculum</p>
-                                <p class="text-xs text-gray-400 mt-1">Yesterday</p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="mt-4">
-                <a href="#" class="text-sm text-primary hover:underline">View all activities</a>
+            <h3 class="text-lg font-semibold text-dark mb-4">Recently Enrolled Students</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @forelse ($recentEnrollments as $student)
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4 text-sm text-gray-900">{{ $student->first_name }} {{ $student->last_name }}</td>
+                                <td class="py-3 px-4 text-sm text-gray-900">{{ $student->program->program_name }}</td>
+                                <td class="py-3 px-4 text-sm text-gray-500">
+                                    <a href="{{ route('admin.grades.show', $student) }}" class="text-blue-500 hover:underline">Grades</a>
+                                    <span class="mx-2">|</span>
+                                    <a href="{{ route('admin.admissions.show', $student->admission->admission_id) }}" class="text-green-500 hover:underline">Admission</a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center py-4">No recent enrollments.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
 
