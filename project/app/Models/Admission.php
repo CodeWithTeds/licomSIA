@@ -46,6 +46,7 @@ class Admission extends Model
         'admission_type',
         'last_school_attended',
         'program_id',
+        'program_applied_for',
         'school_year_applied',
         'upload_requirements',
         'application_status',

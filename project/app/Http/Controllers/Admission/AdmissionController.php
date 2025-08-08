@@ -45,7 +45,10 @@ class AdmissionController extends Controller
     public function create()
     {
         if (Auth::check()) {
-            $admission = Auth::user()->admissions()->latest()->first();
+            $user = Auth::user();
+            // Check if the user has an admission record
+            $admission = Admission::where('user_id', $user->id)->latest()->first();
+            
             if ($admission) {
                 switch ($admission->application_status) {
                     case 'Pending':
@@ -59,7 +62,7 @@ class AdmissionController extends Controller
         }
 
         $programs = Program::all();
-        return view('student.admission.index', compact('programs'));
+        return view('admission.create', compact('programs'));
     }
 
     public function store(AdmissionRequest $request)
@@ -71,6 +74,6 @@ class AdmissionController extends Controller
 
         $this->admissionService->createAdmission($data);
 
-        return redirect()->route('admission.create')->with('success', 'Admission submitted successfully!');
+        return redirect()->route('public.admission.create')->with('success', 'Admission submitted successfully!');
     }
 }

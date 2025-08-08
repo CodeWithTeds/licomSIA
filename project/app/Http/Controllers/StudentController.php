@@ -12,6 +12,8 @@ use App\Models\Program;
 use App\Models\Schedule;
 use App\Models\Student;
 use App\Models\User;
+use App\Models\Grade;
+use App\Models\Admission;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,6 +102,51 @@ class StudentController extends Controller
         $request->session()->regenerateToken();
         
         return redirect()->route('student.login');
+    }
+
+    public function showRegistrationForm()
+    {
+        $programs = Program::all();
+        return view('student.register', compact('programs'));
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'program_id' => 'required|exists:programs,program_id',
+            'year_level' => 'required|integer|min:1|max:4',
+            'birthdate' => 'required|date',
+        ]);
+
+        $user = User::create([
+            'name' => $request->first_name . ' ' . $request->last_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'student',
+        ]);
+
+        // Generate a unique student number
+        $studentNumber = date('Y') . '-' . str_pad($user->id, 4, '0', STR_PAD_LEFT);
+
+        // Create a corresponding student record
+        Student::create([
+            'user_id' => $user->id,
+            'student_number' => $studentNumber,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'program_id' => $request->program_id,
+            'year_level' => $request->year_level,
+            'birthdate' => $request->birthdate,
+        ]);
+
+        Auth::login($user);
+
+        return redirect()->route('student.dashboard');
     }
 
     // Student Dashboard Methods
@@ -238,77 +285,191 @@ class StudentController extends Controller
     // Admission Methods
     public function showAdmissionForm()
     {
-        $programs = Program::all();
-        return view('student.admission.create', compact('programs'));
+        $student = Auth::user()->student;
+        $admission = Admission::where('user_id', $student->user_id)->latest()->first();
+
+        if ($admission) {
+            // Redirect to the appropriate view based on admission status
+            switch ($admission->application_status) {
+                case 'Pending':
+                    return redirect()->route('student.admission.pending');
+                case 'approved':
+                    return redirect()->route('student.admission.approved');
+                case 'rejected':
+                    return redirect()->route('student.admission.rejected');
+            }
+        }
+
+        return view('student.admission.index', [
+            'student' => $student,
+            'admission' => $admission
+        ]);
+    }
+    
+    public function showPendingAdmission()
+    {
+        $student = Auth::user()->student;
+        $admission = Admission::where('user_id', $student->user_id)
+                    ->where('application_status', 'Pending')
+                    ->latest()
+                    ->first();
+                    
+        if (!$admission) {
+            return redirect()->route('student.admission.index');
+        }
+        
+        return view('student.admission.pending', compact('admission', 'student'));
+    }
+    
+    public function showApprovedAdmission()
+    {
+        $student = Auth::user()->student;
+        $admission = Admission::where('user_id', $student->user_id)
+                    ->where('application_status', 'approved')
+                    ->latest()
+                    ->first();
+                    
+        if (!$admission) {
+            return redirect()->route('student.admission.index');
+        }
+        
+        return view('student.admission.approved', compact('admission', 'student'));
+    }
+    
+    public function showRejectedAdmission()
+    {
+        $student = Auth::user()->student;
+        $admission = Admission::where('user_id', $student->user_id)
+                    ->where('application_status', 'rejected')
+                    ->latest()
+                    ->first();
+                    
+        if (!$admission) {
+            return redirect()->route('student.admission.index');
+        }
+        
+        return view('student.admission.rejected', compact('admission', 'student'));
     }
 
-    public function processAdmission(Request $request)
+    public function createAdmission()
+    {
+        $student = Auth::user()->student;
+        $programs = Program::all();
+        return view('student.admission.create', compact('student', 'programs'));
+    }
+
+    public function storeAdmission(Request $request)
     {
         $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'gender' => 'required|in:Male,Female,Other',
-            'birthdate' => 'required|date',
-            'address' => 'required|string|max:255',
-            'contact_number' => 'required|string|max:20',
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'middle_name' => 'nullable|string|max:100',
+            'email' => 'required|email|max:100',
+            'mobile_number' => 'required|string|max:20',
+            'gender' => 'required|string|max:50',
+            'date_of_birth' => 'required|date',
+            'home_address' => 'required|string',
+            'civil_status' => 'required|string|max:50',
+            'citizenship' => 'required|string|max:255',
+            'religion' => 'required|string|max:50',
+            'father_first_name' => 'required|string|max:100',
+            'father_last_name' => 'required|string|max:100',
+            'father_middle_name' => 'nullable|string|max:100',
+            'father_occupation' => 'required|string|max:100',
+            'mother_first_name' => 'required|string|max:100',
+            'mother_last_name' => 'required|string|max:100',
+            'mother_middle_name' => 'nullable|string|max:100',
+            'mother_occupation' => 'required|string|max:100',
             'program_id' => 'required|exists:programs,program_id',
-            'year_level' => 'required|integer|min:1|max:4',
-            'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
+            'last_school_attended' => 'required|string|max:150',
+            'year_graduated' => 'nullable|string',
+            'school_year_applied' => 'required|string|max:20',
+            'age' => 'required|integer',
+            'suffix_name' => 'nullable|string|max:10',
+            'barangay' => 'required|string|max:100',
+            'city' => 'required|string|max:100',
+            'province' => 'required|string|max:100',
+            'zipcode' => 'required|string|max:10',
+            'disability' => 'nullable|string',
+            'course_preferences' => 'required|string|max:100',
+            'admission_type' => 'required|string|max:50',
+            'scholarship' => 'nullable|string|max:20',
+            'expected_date_of_grad' => 'nullable|string|max:100',
+            'upload_requirements' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:10240',
         ]);
 
+        $student = Auth::user()->student;
         
-        DB::beginTransaction();
-        try {
-            // Create user account
-            $user = User::create([
-                'name' => $request->first_name . ' ' . $request->last_name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role' => 'student',
-            ]);
-            
-            // Generate student number (e.g., 2023-0001)
-            $year = date('Y');
-            $lastStudent = Student::where('student_number', 'like', $year . '-%')
-                ->orderBy('student_number', 'desc')
-                ->first();
-                
-            if ($lastStudent) {
-                $lastNumber = intval(substr($lastStudent->student_number, 5));
-                $newNumber = $lastNumber + 1;
-            } else {
-                $newNumber = 1;
-            }
-            
-            $studentNumber = $year . '-' . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
-            
-            // Create student record - directly set as Enrolled
-            Student::create([
-                'user_id' => $user->id,
-                'student_number' => $studentNumber,
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'gender' => $request->gender,
-                'birthdate' => $request->birthdate,
-                'address' => $request->address,
-                'contact_number' => $request->contact_number,
-                'email' => $request->email,
-                'program_id' => $request->program_id,
-                'year_level' => $request->year_level,
-                'status' => 'Enrolled', // Directly enroll the student
-            ]);
-            
-            DB::commit();
-            
-            // Log the user in
-            Auth::login($user);
-            
-            return redirect()->route('student.dashboard')->with('success', 'Registration successful! Welcome to our institution.');
+        $data = [
+            'user_id' => $student->user_id,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_name' => $request->middle_name,
+            'email' => $request->email,
+            'mobile_number' => $request->mobile_number,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'home_address' => $request->home_address,
+            'civil_status' => $request->civil_status,
+            'citizenship' => $request->citizenship,
+            'religion' => $request->religion,
+            'father_first_name' => $request->father_first_name,
+            'father_last_name' => $request->father_last_name,
+            'father_middle_name' => $request->father_middle_name,
+            'father_occupation' => $request->father_occupation,
+            'mother_first_name' => $request->mother_first_name,
+            'mother_last_name' => $request->mother_last_name,
+            'mother_middle_name' => $request->mother_middle_name,
+            'mother_occupation' => $request->mother_occupation,
+            'program_id' => $request->program_id,
+            'last_school_attended' => $request->last_school_attended,
+            'year_graduated' => $request->year_graduated,
+            'school_year_applied' => $request->school_year_applied,
+            'application_status' => 'Pending',
+            'age' => $request->age,
+            'suffix_name' => $request->suffix_name,
+            'barangay' => $request->barangay,
+            'city' => $request->city,
+            'province' => $request->province,
+            'zipcode' => $request->zipcode,
+            'disability' => $request->disability,
+            'course_preferences' => $request->course_preferences,
+            'admission_type' => $request->admission_type,
+            'scholarship' => $request->scholarship,
+            'expected_date_of_grad' => $request->expected_date_of_grad,
+        ];
         
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'An error occurred during registration: ' . $e->getMessage())->withInput();
+        // Handle file upload if provided
+        if ($request->hasFile('upload_requirements')) {
+            $file = $request->file('upload_requirements');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('requirements', $filename, 'public');
+            $data['upload_requirements'] = $path;
         }
+
+        Admission::create($data);
+
+        return redirect()->route('student.admission.index')->with('success', 'Admission application submitted successfully.');
+    }
+
+    public function myGrades()
+    {
+        $student = Auth::user()->student;
+        $grades = Grade::with(['course', 'instructor'])
+            ->where('student_id', $student->student_id)
+            ->get()
+            ->groupBy('school_year');
+
+        return view('student.grades.index', compact('student', 'grades'));
+    }
+
+    private function getProgramName($programId)
+    {
+        if (!$programId) {
+            return 'Unknown Program';
+        }
+        
+        $program = Program::find($programId);
+        return $program ? $program->program_name : 'Unknown Program';
     }
 } 

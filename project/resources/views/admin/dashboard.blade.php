@@ -86,8 +86,10 @@
                                 <td class="py-3 px-4 text-sm text-gray-900">{{ $student->program->program_name }}</td>
                                 <td class="py-3 px-4 text-sm text-gray-500">
                                     <a href="{{ route('admin.grades.show', $student) }}" class="text-blue-500 hover:underline">Grades</a>
+                                    @if ($student->admission)
                                     <span class="mx-2">|</span>
                                     <a href="{{ route('admin.admissions.show', $student->admission->admission_id) }}" class="text-green-500 hover:underline">Admission</a>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

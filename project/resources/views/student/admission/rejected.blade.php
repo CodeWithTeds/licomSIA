@@ -13,7 +13,7 @@
         <h1 class="text-4xl font-extrabold text-gray-800 mb-4">Regarding Your Application</h1>
         
         <p class="text-gray-600 text-lg mb-6">
-            We regret to inform you that your application for the <strong>{{ $admission->program->program_name }}</strong> program could not be approved at this time.
+            We regret to inform you that your application for the <strong>{{ $admission->program_applied_for }}</strong> program could not be approved at this time.
         </p>
 
         <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4 rounded-lg mb-8">

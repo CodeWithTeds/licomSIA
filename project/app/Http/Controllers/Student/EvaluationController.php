@@ -30,17 +30,36 @@ class EvaluationController extends Controller
             'instructor_id' => 'required|exists:instructors,instructor_id',
             'semester' => 'required|string|max:10',
             'school_year' => 'required|string|max:10',
-            'rating' => 'required|integer|min:1|max:5',
             'comments' => 'nullable|string',
+            'subject_mastery' => 'required|integer|min:1|max:5',
+            'teaching_clarity' => 'required|integer|min:1|max:5',
+            'student_engagement' => 'required|integer|min:1|max:5',
+            'fairness_of_grading' => 'required|integer|min:1|max:5',
+            'respect_for_students' => 'required|integer|min:1|max:5',
         ]);
+
+        $ratings = [
+            $request->subject_mastery,
+            $request->teaching_clarity,
+            $request->student_engagement,
+            $request->fairness_of_grading,
+            $request->respect_for_students,
+        ];
+
+        $average_rating = array_sum($ratings) / count($ratings);
 
         Evaluation::create([
             'student_id' => Auth::user()->student->student_id,
             'instructor_id' => $request->instructor_id,
             'semester' => $request->semester,
             'school_year' => $request->school_year,
-            'rating' => $request->rating,
             'comments' => $request->comments,
+            'average_rating' => $average_rating,
+            'subject_mastery' => $request->subject_mastery,
+            'teaching_clarity' => $request->teaching_clarity,
+            'student_engagement' => $request->student_engagement,
+            'fairness_of_grading' => $request->fairness_of_grading,
+            'respect_for_students' => $request->respect_for_students,
         ]);
 
         return redirect()->route('student.evaluations.index')->with('success', 'Evaluation submitted successfully.');

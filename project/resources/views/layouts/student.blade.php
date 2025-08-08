@@ -47,13 +47,12 @@
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="{{ route('student.dashboard') }}" class="text-gray-600 hover:text-primary font-medium">Home</a>
                 <a href="{{ route('student.dashboard') }}" class="text-primary font-bold">Dashboard</a>
-                <a href="{{ route('admission.create') }}" class="text-gray-600 hover:text-primary font-medium">Admission</a>
+                <a href="{{ route('student.admission.index') }}" class="text-gray-600 hover:text-primary font-medium">Admission</a>
+                <form method="POST" action="{{ route('student.logout') }}">
+                    @csrf
+                    <button type="submit" class="text-gray-600 hover:text-primary font-medium">Logout</button>
+                </form>
             </nav>
-            <div class="flex items-center space-x-4">
-                <i class="fas fa-search text-gray-500"></i>
-                <i class="fas fa-bell text-gray-500"></i>
-                <img class="h-8 w-8 rounded-full" src="https://i.pravatar.cc/150?u={{ Auth::user()->id }}" alt="User profile">
-            </div>
         </header>
 
         <main>

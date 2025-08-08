@@ -13,12 +13,18 @@
         <h1 class="text-4xl font-extrabold text-gray-800 mb-4">Congratulations, {{ $admission->first_name }}!</h1>
         
         <p class="text-gray-600 text-lg mb-6">
-            Your application for the <strong>{{ $admission->program->program_name }}</strong> program has been approved!
+            Your application for the <strong>{{ $admission->program_applied_for }}</strong> program has been approved!
         </p>
 
         <div class="bg-blue-50 border-2 border-dashed border-blue-200 rounded-lg p-6 mb-8">
             <p class="text-gray-700 mb-2">Your official student number is:</p>
-            <p class="text-3xl font-bold text-primary tracking-widest">{{ $admission->student->student_number }}</p>
+            <p class="text-3xl font-bold text-primary tracking-widest">
+                @if(isset($student) && $student)
+                    {{ $student->student_number }}
+                @else
+                    {{ date('Y') }}-{{ str_pad($admission->admission_id, 4, '0', STR_PAD_LEFT) }}
+                @endif
+            </p>
         </div>
 
         <div class="text-left bg-gray-50 rounded-lg p-6">

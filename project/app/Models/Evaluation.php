@@ -16,8 +16,13 @@ class Evaluation extends Model
         'student_id',
         'semester',
         'school_year',
-        'rating',
         'comments',
+        'average_rating',
+        'subject_mastery',
+        'teaching_clarity',
+        'student_engagement',
+        'fairness_of_grading',
+        'respect_for_students',
     ];
 
     public function instructor()

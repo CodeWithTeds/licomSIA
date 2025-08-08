@@ -31,7 +31,7 @@
                             School Year
                         </th>
                         <th scope="col" class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">
-                            Rating
+                            Average Rating
                         </th>
                         <th scope="col" class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">
                             Comments
@@ -51,7 +51,7 @@
                                 <p class="text-gray-900 whitespace-no-wrap">{{ $evaluation->school_year }}</p>
                             </td>
                             <td class="px-5 py-4 border-b border-gray-200 text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">{{ $evaluation->rating }}</p>
+                                <p class="text-gray-900 whitespace-no-wrap">{{ number_format($evaluation->average_rating, 2) }}</p>
                             </td>
                             <td class="px-5 py-4 border-b border-gray-200 text-sm">
                                 <p class="text-gray-900 whitespace-no-wrap">{{ $evaluation->comments }}</p>

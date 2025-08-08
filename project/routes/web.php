@@ -39,7 +39,7 @@ Route::get('/login', function () {
 })->name('login');
 
 // Admission routes
-Route::get('/admission', [AdmissionController::class, 'create'])->name('admission.create');
+Route::get('/admission', [AdmissionController::class, 'create'])->name('public.admission.create');
 Route::post('/admission', [AdmissionController::class, 'store'])->name('admission.store');
 
 // Admin routes
@@ -98,13 +98,9 @@ Route::prefix('student')->name('student.')->group(function () {
     })->name('login');
     Route::post('/login', [StudentController::class, 'login'])->name('login.submit');
 
+    Route::get('/register', [StudentController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [StudentController::class, 'register'])->name('register.submit');
 
-    // Registration routes
-    Route::get('/register', function () {
-        $programs = \App\Models\Program::all();
-        return view('student.register', compact('programs'));
-    })->name('register');
-    Route::post('/register', [StudentController::class, 'processAdmission'])->name('register.submit');
 
     // Protected student routes
     Route::middleware(['auth', \App\Http\Middleware\StudentMiddleware::class])->group(function () {
@@ -122,11 +118,18 @@ Route::prefix('student')->name('student.')->group(function () {
 
         // Admission routes
         Route::get('/admission', [StudentController::class, 'showAdmissionForm'])->name('admission.index');
-        Route::post('/admission', [StudentController::class, 'processAdmission'])->name('admission.store');
+        Route::get('/admission/apply', [StudentController::class, 'createAdmission'])->name('admission.create');
+        Route::post('/admission/apply', [StudentController::class, 'storeAdmission'])->name('admission.store');
         Route::get('/admission/{admission}', [StudentController::class, 'showAdmissionDetails'])->name('admission.show');
+        Route::get('/admission/status/pending', [StudentController::class, 'showPendingAdmission'])->name('admission.pending');
+        Route::get('/admission/status/approved', [StudentController::class, 'showApprovedAdmission'])->name('admission.approved');
+        Route::get('/admission/status/rejected', [StudentController::class, 'showRejectedAdmission'])->name('admission.rejected');
 
         // Evaluation routes
         Route::resource('evaluations', EvaluationController::class);
+
+        // Grades routes
+        Route::get('/my-grades', [StudentController::class, 'myGrades'])->name('grades.index');
     });
 });
 
