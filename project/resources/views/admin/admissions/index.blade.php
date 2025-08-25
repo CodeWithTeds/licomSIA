@@ -11,6 +11,32 @@
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
         @endif
+        
+        <div class="mb-6">
+            <form action="{{ route('admin.admissions.index') }}" method="GET" class="flex flex-wrap items-end gap-4">
+                <div class="w-full md:w-auto">
+                    <label for="program_id" class="block text-sm font-medium text-gray-700 mb-1">Filter by Program</label>
+                    <select name="program_id" id="program_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option value="">All Programs</option>
+                        @foreach($programs as $program)
+                            <option value="{{ $program->program_id }}" {{ request('program_id') == $program->program_id ? 'selected' : '' }}>
+                                {{ $program->program_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                        Filter
+                    </button>
+                    @if(request()->has('program_id'))
+                        <a href="{{ route('admin.admissions.index') }}" class="ml-2 text-gray-600 hover:text-gray-900">
+                            Clear
+                        </a>
+                    @endif
+                </div>
+            </form>
+        </div>
 
         <div class="bg-white shadow-md rounded-lg overflow-x-auto">
             <table class="min-w-full leading-normal">

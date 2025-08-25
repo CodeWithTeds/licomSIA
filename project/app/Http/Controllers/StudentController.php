@@ -452,15 +452,39 @@ class StudentController extends Controller
         return redirect()->route('student.admission.index')->with('success', 'Admission application submitted successfully.');
     }
 
-    public function myGrades()
+    public function myGrades(Request $request)
     {
         $student = Auth::user()->student;
-        $grades = Grade::with(['course', 'instructor'])
-            ->where('student_id', $student->student_id)
-            ->get()
-            ->groupBy('school_year');
-
-        return view('student.grades.index', compact('student', 'grades'));
+        $programId = $request->input('program_id');
+        $courseId = $request->input('course_id');
+        $yearLevel = $request->input('year_level');
+        
+        $gradesQuery = Grade::with(['course.program', 'instructor'])
+            ->where('student_id', $student->student_id);
+        
+        if ($courseId) {
+            $gradesQuery->where('course_id', $courseId);
+        }
+        
+        if ($programId || $yearLevel) {
+            $gradesQuery->whereHas('course', function($query) use ($programId, $yearLevel) {
+                if ($programId) {
+                    $query->where('program_id', $programId);
+                }
+                
+                if ($yearLevel) {
+                    $query->where('year_level', $yearLevel);
+                }
+            });
+        }
+        
+        $grades = $gradesQuery->get()->groupBy('school_year');
+        
+        // Get all programs and courses for filter dropdowns
+        $programs = Program::all();
+        $courses = Course::all();
+        
+        return view('student.grades.index', compact('student', 'grades', 'programs', 'courses'));
     }
 
     private function getProgramName($programId)

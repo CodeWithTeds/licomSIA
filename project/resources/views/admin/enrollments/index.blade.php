@@ -15,6 +15,56 @@
         </div>
     @endif
     
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <form action="{{ route('admin.enrollments.index') }}" method="GET" class="flex flex-wrap items-end gap-4">
+            <div class="w-full md:w-auto">
+                <label for="program_id" class="block text-sm font-medium text-gray-700 mb-1">Program</label>
+                <select name="program_id" id="program_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <option value="">All Programs</option>
+                    @foreach($programs as $program)
+                        <option value="{{ $program->program_id }}" {{ request('program_id') == $program->program_id ? 'selected' : '' }}>
+                            {{ $program->program_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <div class="w-full md:w-auto">
+                <label for="year_level" class="block text-sm font-medium text-gray-700 mb-1">Year Level</label>
+                <select name="year_level" id="year_level" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <option value="">All Years</option>
+                    @for($i = 1; $i <= 4; $i++)
+                        <option value="{{ $i }}" {{ request('year_level') == $i ? 'selected' : '' }}>
+                            Year {{ $i }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            
+            <div class="w-full md:w-auto">
+                <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <select name="status" id="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <option value="">All Statuses</option>
+                    <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
+                    <option value="Approved" {{ request('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
+                    <option value="Rejected" {{ request('status') == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                    <option value="Enrolled" {{ request('status') == 'Enrolled' ? 'selected' : '' }}>Enrolled</option>
+                </select>
+            </div>
+            
+            <div>
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                    Filter
+                </button>
+                @if(request()->anyFilled(['program_id', 'year_level', 'status']))
+                    <a href="{{ route('admin.enrollments.index') }}" class="ml-2 text-gray-600 hover:text-gray-900">
+                        Clear
+                    </a>
+                @endif
+            </div>
+        </form>
+    </div>
+    
     <div class="bg-white rounded-lg shadow overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">

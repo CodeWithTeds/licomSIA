@@ -45,9 +45,9 @@
                 <span class="text-2xl font-bold text-gray-800">LicomSIA</span>
             </div>
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="{{ route('student.dashboard') }}" class="text-gray-600 hover:text-primary font-medium">Home</a>
+
                 <a href="{{ route('student.dashboard') }}" class="text-primary font-bold">Dashboard</a>
-                <a href="{{ route('student.admission.index') }}" class="text-gray-600 hover:text-primary font-medium">Admission</a>
+               
                 <form method="POST" action="{{ route('student.logout') }}">
                     @csrf
                     <button type="submit" class="text-gray-600 hover:text-primary font-medium">Logout</button>

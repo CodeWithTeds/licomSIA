@@ -10,16 +10,36 @@ use Illuminate\Support\Facades\Log;
 class EnrollmentService
 {
     /**
-     * Get all enrollments with pagination
+     * Get all enrollments with pagination and optional filters
      *
+     * @param int|null $programId
+     * @param int|null $yearLevel
+     * @param string|null $status
      * @param int $perPage
      * @return LengthAwarePaginator
      */
-    public function getAllEnrollments($perPage = 10): LengthAwarePaginator
+    public function getAllEnrollments($programId = null, $yearLevel = null, $status = null, $perPage = 10): LengthAwarePaginator
     {
-        return Enrollment::with(['student', 'student.program', 'enrollmentCourses.course'])
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+        $query = Enrollment::with(['student', 'student.program', 'enrollmentCourses.course'])
+            ->orderBy('created_at', 'desc');
+            
+        if ($status) {
+            $query->where('status', $status);
+        }
+        
+        if ($programId) {
+            $query->whereHas('student', function($q) use ($programId) {
+                $q->where('program_id', $programId);
+            });
+        }
+        
+        if ($yearLevel) {
+            $query->whereHas('student', function($q) use ($yearLevel) {
+                $q->where('year_level', $yearLevel);
+            });
+        }
+        
+        return $query->paginate($perPage);
     }
 
     /**

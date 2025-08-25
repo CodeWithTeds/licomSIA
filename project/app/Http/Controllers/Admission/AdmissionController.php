@@ -19,10 +19,12 @@ class AdmissionController extends Controller
         $this->admissionService = $admissionService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $admissions = $this->admissionService->getAllAdmissions();
-        return view('admin.admissions.index', compact('admissions'));
+        $programId = $request->input('program_id');
+        $admissions = $this->admissionService->getAllAdmissions($programId);
+        $programs = Program::all();
+        return view('admin.admissions.index', compact('admissions', 'programs'));
     }
 
     public function show(Admission $admission)

@@ -16,9 +16,7 @@
                 <a href="{{ route('student.enroll') }}" class="px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary/90 transition">
                     Enroll Now
                 </a>
-                <a href="{{ route('student.admission.index') }}" class="px-6 py-3 bg-secondary text-white font-semibold rounded-lg shadow-md hover:bg-secondary/90 transition">
-                    Admission Now
-                </a>
+              
             </div>
         </div>
         <div class="md:w-1/2 flex justify-center items-center p-8">

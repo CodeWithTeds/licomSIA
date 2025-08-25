@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enrollment;
+use App\Models\Program;
 use App\Services\EnrollmentService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -19,10 +20,16 @@ class EnrollmentController extends Controller
         
     }
     
-    public function index(): View
+    public function index(Request $request): View
     {
-        $enrollments = $this->enrollmentService->getAllEnrollments();
-        return view('admin.enrollments.index', compact('enrollments'));
+        $programId = $request->input('program_id');
+        $yearLevel = $request->input('year_level');
+        $status = $request->input('status');
+        
+        $enrollments = $this->enrollmentService->getAllEnrollments($programId, $yearLevel, $status);
+        $programs = Program::all();
+        
+        return view('admin.enrollments.index', compact('enrollments', 'programs'));
     }
     
     public function pending(): View

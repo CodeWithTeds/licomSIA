@@ -12,8 +12,14 @@ class AdmissionRepository
         return Admission::create($data);
     }
 
-    public function getAll()
+    public function getAll($programId = null)
     {
-        return Admission::with('program')->latest()->get();
+        $query = Admission::with('program')->latest();
+        
+        if ($programId) {
+            $query->where('program_id', $programId);
+        }
+        
+        return $query->get();
     }
 } 

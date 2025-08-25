@@ -25,9 +25,9 @@ class AdmissionService
         return $this->admissionRepository->create($data);
     }
 
-    public function getAllAdmissions()
+    public function getAllAdmissions($programId = null)
     {
-        return $this->admissionRepository->getAll();
+        return $this->admissionRepository->getAll($programId);
     }
 
     public function approveAdmission(Admission $admission)
