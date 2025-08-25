@@ -15,6 +15,8 @@ use App\Http\Controllers\Admission\AdmissionController;
 use App\Http\Controllers\Auth\InstructorAuthController;
 use App\Http\Controllers\Teacher\GradeController;
 use App\Http\Controllers\Student\EvaluationController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
 
 
 /*
@@ -41,6 +43,25 @@ Route::get('/login', function () {
 // Admission routes
 Route::get('/admission', [AdmissionController::class, 'create'])->name('public.admission.create');
 Route::post('/admission', [AdmissionController::class, 'store'])->name('admission.store');
+
+// Test mail route (remove this after testing)
+Route::get('/test-mail', function() {
+    $user = new \App\Models\User(['name' => 'Test User', 'email' => 'teadmarvin@gmail.com']);
+    try {
+        \Illuminate\Support\Facades\Mail::to($user->email)
+            ->send(new \App\Mail\StudentAccountCreated($user, 'testpassword123'));
+        return 'Mail sent successfully!';
+    } catch (\Throwable $e) {
+        \Illuminate\Support\Facades\Log::error('Mail test failed: ' . $e->getMessage());
+        return 'Mail sending failed: ' . $e->getMessage();
+    }
+});
+
+// Password reset (public)
+Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {

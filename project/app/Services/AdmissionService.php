@@ -5,8 +5,11 @@ namespace App\Services;
 use App\Models\Admission;
 use App\Models\Student;
 use App\Models\User;
+use App\Mail\StudentAccountCreated;
 use App\Repositories\AdmissionRepository;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AdmissionService
 {
@@ -37,12 +40,20 @@ class AdmissionService
         
         if (!$user) {
             // Create a new user only if one doesn't exist
+            $generatedPassword = str()->password(10);
             $user = User::create([
                 'name' => $admission->first_name . ' ' . $admission->last_name,
                 'email' => $admission->email,
-                'password' => Hash::make('password'), // Or a randomly generated password
+                'password' => Hash::make($generatedPassword),
                 'role' => 'student',
             ]);
+
+            try {
+                Mail::to($user->email)->send(new StudentAccountCreated($user, $generatedPassword));
+            } catch (\Throwable $e) {
+                Log::error('Failed to send student account email: ' . $e->getMessage());
+                Log::error($e->getTraceAsString());
+            }
         }
 
         // Check if student record already exists
