@@ -151,7 +151,23 @@
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600 font-medium">Year Level:</span>
-                            <span class="text-gray-900">{{ $enrollment->student->year_level }}</span>
+                            <span class="text-gray-900">
+                                @if($enrollment->year_level)
+                                    @if($enrollment->year_level == 1)
+                                        First Year
+                                    @elseif($enrollment->year_level == 2)
+                                        Second Year
+                                    @elseif($enrollment->year_level == 3)
+                                        Third Year
+                                    @elseif($enrollment->year_level == 4)
+                                        Fourth Year
+                                    @else
+                                        {{ $enrollment->year_level }}
+                                    @endif
+                                @else
+                                    {{ $enrollment->student->year_level ?? 'Not specified' }}
+                                @endif
+                            </span>
                         </div>
                     </div>
                 </div>

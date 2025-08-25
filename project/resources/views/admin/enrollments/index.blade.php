@@ -29,17 +29,6 @@
                 </select>
             </div>
             
-            <div class="w-full md:w-auto">
-                <label for="year_level" class="block text-sm font-medium text-gray-700 mb-1">Year Level</label>
-                <select name="year_level" id="year_level" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                    <option value="">All Years</option>
-                    @for($i = 1; $i <= 4; $i++)
-                        <option value="{{ $i }}" {{ request('year_level') == $i ? 'selected' : '' }}>
-                            Year {{ $i }}
-                        </option>
-                    @endfor
-                </select>
-            </div>
             
             <div class="w-full md:w-auto">
                 <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>

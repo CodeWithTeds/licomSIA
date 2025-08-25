@@ -34,7 +34,23 @@
                 </div>
                 <div>
                     <p class="text-sm font-medium text-gray-500">Year Level</p>
-                    <p class="text-sm text-gray-900">{{ $enrollment->student->year_level }}</p>
+                    <p class="text-sm text-gray-900">
+                        @if($enrollment->year_level)
+                            @if($enrollment->year_level == 1)
+                                First Year
+                            @elseif($enrollment->year_level == 2)
+                                Second Year
+                            @elseif($enrollment->year_level == 3)
+                                Third Year
+                            @elseif($enrollment->year_level == 4)
+                                Fourth Year
+                            @else
+                                {{ $enrollment->year_level }}
+                            @endif
+                        @else
+                            {{ $enrollment->student->year_level ?? 'Not specified' }}
+                        @endif
+                    </p>
                 </div>
             </div>
         </div>

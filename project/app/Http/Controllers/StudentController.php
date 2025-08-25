@@ -234,6 +234,7 @@ class StudentController extends Controller
         $request->validate([
             'school_year' => 'required|string|max:10',
             'semester' => 'required|string|max:10',
+            'year_level' => 'required|integer|min:1|max:4',
             'courses' => 'required|array|min:1',
             'courses.*' => 'exists:courses,course_id',
         ]);
@@ -247,6 +248,7 @@ class StudentController extends Controller
                 'student_id' => $student->student_id,
                 'school_year' => $request->school_year,
                 'semester' => $request->semester,
+                'year_level' => $request->year_level,
                 'date_enrolled' => Carbon::now()->toDateString(),
                 'status' => 'Pending',
             ]);

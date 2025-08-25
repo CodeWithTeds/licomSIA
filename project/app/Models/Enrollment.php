@@ -15,6 +15,7 @@ class Enrollment extends Model
         'student_id',
         'school_year',
         'semester',
+        'year_level',
         'date_enrolled',
         'status',
     ];

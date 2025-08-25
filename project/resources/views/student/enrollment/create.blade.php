@@ -100,6 +100,17 @@
                         </div>
                     </div>
                     
+                    <div class="mt-6">
+                        <label for="year_level" class="block text-sm font-medium text-gray-700 mb-1">Year Level</label>
+                        <select name="year_level" id="year_level" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" required>
+                            <option value="">Select Year Level</option>
+                            <option value="1">First Year</option>
+                            <option value="2">Second Year</option>
+                            <option value="3">Third Year</option>
+                            <option value="4">Fourth Year</option>
+                        </select>
+                    </div>
+                    
                     <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded">
                         <div class="flex">
                             <div class="flex-shrink-0">
@@ -219,6 +230,9 @@
                                     <p class="text-gray-600 mb-1">
                                         <span class="font-medium text-gray-700">Semester:</span> {{ $semester }}
                                     </p>
+                                    <p class="text-gray-600 mb-1">
+                                        <span class="font-medium text-gray-700">Year Level:</span> <span id="review-year-level">Not selected</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -285,6 +299,13 @@
         
         // Navigation functions
         nextToStep2.addEventListener('click', function() {
+            // Validate year level selection
+            const yearLevel = document.getElementById('year_level').value;
+            if (!yearLevel) {
+                alert('Please select a year level to continue.');
+                return;
+            }
+            
             step1.classList.add('hidden');
             step2.classList.remove('hidden');
             
@@ -301,6 +322,9 @@
             
             line12.classList.add('bg-green-500');
             line12.style.width = '100%';
+            
+            // Update year level in review section
+            updateYearLevelInReview();
         });
         
         backToStep1.addEventListener('click', function() {
@@ -412,6 +436,27 @@
             
             selectedCoursesContainer.innerHTML = coursesHTML;
         }
+        
+        // Function to update the year level in the review section
+        function updateYearLevelInReview() {
+            const yearLevelSelect = document.getElementById('year_level');
+            const yearLevelText = document.getElementById('review-year-level');
+            const yearLevelValue = yearLevelSelect.value;
+            
+            if (yearLevelValue) {
+                const yearLevelOption = yearLevelSelect.options[yearLevelSelect.selectedIndex].text;
+                yearLevelText.textContent = yearLevelOption;
+            } else {
+                yearLevelText.textContent = 'Not selected';
+            }
+        }
+        
+        // Add change event listener to year level select to update the review in real-time
+        document.getElementById('year_level').addEventListener('change', function() {
+            if (step3.classList.contains('hidden') === false) {
+                updateYearLevelInReview();
+            }
+        });
         
         // Add change event listeners to checkboxes to update the review in real-time
         const courseCheckboxes = document.querySelectorAll('input[name="courses[]"]');

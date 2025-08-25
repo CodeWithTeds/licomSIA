@@ -85,10 +85,6 @@
                 <h3 class="text-xl font-bold">My Grades</h3>
                 <p>View your academic performance.</p>
             </a>
-            <a href="{{ route('student.admission.index') }}" class="bg-green-500 text-white p-6 rounded-lg shadow-md hover:bg-green-600 transition">
-                <h3 class="text-xl font-bold">My Admission</h3>
-                <p>Check your admission status.</p>
-            </a>
             <a href="{{ route('student.evaluations.index') }}" class="bg-yellow-500 text-white p-6 rounded-lg shadow-md hover:bg-yellow-600 transition">
                 <h3 class="text-xl font-bold">Instructor Evaluation</h3>
                 <p>Evaluate your instructors.</p>
