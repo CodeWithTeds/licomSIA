@@ -68,9 +68,10 @@ class Instructor extends Authenticatable
     /**
      * Get the courses taught by the instructor.
      */
-    public function courses(): HasMany
+    public function courses()
     {
-        return $this->hasMany(Course::class, 'instructor_id', 'instructor_id');
+        return $this->belongsToMany(Course::class, 'course_instructor', 'instructor_id', 'course_id')
+            ->withTimestamps();
     }
 
     public function students()

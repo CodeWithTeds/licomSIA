@@ -24,9 +24,11 @@ class CourseRequest extends FormRequest
         return [
             'course_name' => 'required|string|max:100',
             'units' => 'required|integer|min:1',
-            'prerequisite_id' => 'nullable|exists:courses,course_id',
+
             'program_id' => 'required|exists:programs,program_id',
-            'instructor_id' => 'nullable|exists:instructors,instructor_id',
+            'year_level' => 'required|integer|min:1|max:4',
+            'instructor_ids' => 'nullable|array',
+            'instructor_ids.*' => 'exists:instructors,instructor_id',
         ];
     }
 
@@ -39,9 +41,9 @@ class CourseRequest extends FormRequest
     {
         return [
             'course_name' => 'course name',
-            'prerequisite_id' => 'prerequisite course',
+
             'program_id' => 'program',
-            'instructor_id' => 'instructor',
+            'instructor_ids' => 'instructors',
         ];
     }
 

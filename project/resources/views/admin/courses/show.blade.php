@@ -31,6 +31,10 @@
                             <p class="text-base font-medium text-gray-900">{{ $course->units }}</p>
                         </div>
                         <div>
+                            <p class="text-sm font-medium text-gray-500">Year Level</p>
+                            <p class="text-base font-medium text-gray-900">{{ $course->year_level }} Year</p>
+                        </div>
+                        <div>
                             <p class="text-sm font-medium text-gray-500">Program</p>
                             <p class="text-base font-medium text-gray-900">
                                 {{ $course->program->program_name ?? 'N/A' }}
@@ -51,23 +55,14 @@
                         <div>
                             <p class="text-sm font-medium text-gray-500">Instructor</p>
                             <p class="text-base font-medium text-gray-900">
-                                @if($course->instructor)
-                                    {{ $course->instructor->last_name }}, {{ $course->instructor->first_name }}
+                                @if($course->instructors->isNotEmpty())
+                                    {{ $course->instructors->pluck('full_name')->join(', ') }}
                                 @else
                                     Not Assigned
                                 @endif
                             </p>
                         </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Prerequisite</p>
-                            <p class="text-base font-medium text-gray-900">
-                                @if($course->prerequisite)
-                                    {{ $course->prerequisite->course_name }}
-                                @else
-                                    None
-                                @endif
-                            </p>
-                        </div>
+
                     </div>
                 </div>
             </div>

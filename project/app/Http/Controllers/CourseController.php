@@ -36,10 +36,15 @@ class CourseController extends Controller
      *
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $courses = $this->courseService->getAllCourses();
-        return view('admin.courses.index', compact('courses'));
+        $filters = [
+            'course_name' => $request->get('course_name'),
+            'year_level' => $request->get('year_level')
+        ];
+
+        $courses = $this->courseService->getAllCourses(10, $filters);
+        return view('admin.courses.index', compact('courses', 'filters'));
     }
 
     /**
@@ -54,9 +59,7 @@ class CourseController extends Controller
             ->orderBy('last_name')
             ->orderBy('first_name')
             ->get();
-        $prerequisites = Course::orderBy('course_name')->get();
-
-        return view('admin.courses.create', compact('programs', 'instructors', 'prerequisites'));
+        return view('admin.courses.create', compact('programs', 'instructors'));
     }
 
     /**
@@ -68,7 +71,13 @@ class CourseController extends Controller
     public function store(CourseRequest $request): RedirectResponse
     {
         $validatedData = $request->validated();
+        $instructorIds = $validatedData['instructor_ids'] ?? [];
+        unset($validatedData['instructor_ids']);
+        
         $course = Course::create($validatedData);
+        if (!empty($instructorIds)) {
+            $course->instructors()->attach($instructorIds);
+        }
 
         return redirect()->route('admin.courses.index')
             ->with('success', 'Course created successfully.');
@@ -92,9 +101,7 @@ class CourseController extends Controller
             ->orderBy('last_name')
             ->orderBy('first_name')
             ->get();
-        $prerequisites = Course::orderBy('course_name')->get();
-        
-        return view('admin.courses.edit', compact('course', 'programs', 'instructors', 'prerequisites'));
+        return view('admin.courses.edit', compact('course', 'programs', 'instructors'));
     }
 
     /**
@@ -103,7 +110,11 @@ class CourseController extends Controller
     public function update(CourseRequest $request, Course $course)
     {
         $validatedData = $request->validated();
+        $instructorIds = $validatedData['instructor_ids'] ?? [];
+        unset($validatedData['instructor_ids']);
+        
         $course->update($validatedData);
+        $course->instructors()->sync($instructorIds);
 
         return redirect()->route('admin.courses.index')
             ->with('success', 'Course updated successfully.');

@@ -14,10 +14,8 @@ class Course extends Model
     protected $fillable = [
         'course_name',
         'units',
-        'prerequisite_id',
         'program_id',
         'year_level',
-        'instructor_id',
     ];
 
     public function program()
@@ -25,15 +23,12 @@ class Course extends Model
         return $this->belongsTo(Program::class, 'program_id', 'program_id');
     }
 
-    public function instructor()
+    public function instructors()
     {
-        return $this->belongsTo(Instructor::class, 'instructor_id', 'instructor_id');
+        return $this->belongsToMany(Instructor::class, 'course_instructor', 'course_id', 'instructor_id')
+            ->withTimestamps();
     }
 
-    public function prerequisite()
-    {
-        return $this->belongsTo(Course::class, 'prerequisite_id', 'course_id');
-    }
 
     public function schedules()
     {

@@ -40,6 +40,17 @@
                     <input type="number" name="units" id="units" value="{{ old('units', $course->units) }}" min="1" class="form-input block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" required>
                 </div>
 
+                <!-- Year Level -->
+                <div>
+                    <label for="year_level" class="block text-sm font-medium text-gray-700 mb-1">Year Level</label>
+                    <select name="year_level" id="year_level" class="form-select block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" required>
+                        <option value="">Select Year Level</option>
+                        @for($i = 1; $i <= 4; $i++)
+                            <option value="{{ $i }}" {{ old('year_level', $course->year_level) == $i ? 'selected' : '' }}>{{ $i }} Year</option>
+                        @endfor
+                    </select>
+                </div>
+
                 <!-- Program -->
                 <div>
                     <label for="program_id" class="block text-sm font-medium text-gray-700 mb-1">Program</label>
@@ -53,31 +64,20 @@
                     </select>
                 </div>
 
-                <!-- Instructor -->
+                <!-- Instructors -->
                 <div>
-                    <label for="instructor_id" class="block text-sm font-medium text-gray-700 mb-1">Instructor</label>
-                    <select name="instructor_id" id="instructor_id" class="form-select block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                        <option value="">Select Instructor</option>
+                    <label for="instructor_ids" class="block text-sm font-medium text-gray-700 mb-1">Instructors</label>
+                    <select name="instructor_ids[]" id="instructor_ids" class="form-select block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" multiple>
                         @foreach($instructors as $instructor)
-                            <option value="{{ $instructor->instructor_id }}" {{ (old('instructor_id', $course->instructor_id) == $instructor->instructor_id) ? 'selected' : '' }}>
+                            <option value="{{ $instructor->instructor_id }}" {{ in_array($instructor->instructor_id, old('instructor_ids', $course->instructors->pluck('instructor_id')->toArray())) ? 'selected' : '' }}>
                                 {{ $instructor->last_name }}, {{ $instructor->first_name }} - {{ $instructor->department->name ?? 'N/A' }}
                             </option>
                         @endforeach
                     </select>
+                    <p class="mt-1 text-sm text-gray-500">Hold Ctrl/Cmd to select multiple instructors</p>
                 </div>
 
-                <!-- Prerequisite -->
-                <div>
-                    <label for="prerequisite_id" class="block text-sm font-medium text-gray-700 mb-1">Prerequisite</label>
-                    <select name="prerequisite_id" id="prerequisite_id" class="form-select block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                        <option value="">Select Prerequisite (Optional)</option>
-                        @foreach($prerequisites as $prerequisite)
-                            <option value="{{ $prerequisite->course_id }}" {{ (old('prerequisite_id', $course->prerequisite_id) == $prerequisite->course_id) ? 'selected' : '' }}>
-                                {{ $prerequisite->course_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+
             </div>
 
             <div class="mt-6">

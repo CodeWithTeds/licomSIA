@@ -15,10 +15,21 @@ class CourseService
      * @param int $perPage
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getAllCourses($perPage = 10)
+    public function getAllCourses($perPage = 10, array $filters = [])
     {
-        return Course::with(['program', 'instructor', 'prerequisite'])
-            ->orderBy('course_name')
+        $query = Course::with(['program', 'instructors']);
+
+        // Filter by course name
+        if (!empty($filters['course_name'])) {
+            $query->where('course_name', 'like', '%' . $filters['course_name'] . '%');
+        }
+
+        // Filter by year level
+        if (!empty($filters['year_level'])) {
+            $query->where('year_level', $filters['year_level']);
+        }
+
+        return $query->orderBy('course_name')
             ->paginate($perPage);
     }
 
@@ -30,7 +41,7 @@ class CourseService
      */
     public function getCourseById(int $id): ?Course
     {
-        return Course::with(['program', 'instructor', 'prerequisite'])->find($id);
+        return Course::with(['program', 'instructors'])->find($id);
     }
 
     /**
@@ -43,13 +54,17 @@ class CourseService
     {
         try {
             return DB::transaction(function () use ($data) {
-                return Course::create([
+                $course = Course::create([
                     'course_name' => $data['course_name'],
                     'units' => $data['units'],
-                    'prerequisite_id' => $data['prerequisite_id'] ?? null,
                     'program_id' => $data['program_id'],
-                    'instructor_id' => $data['instructor_id'] ?? null,
                 ]);
+
+                if (!empty($data['instructor_ids'])) {
+                    $course->instructors()->attach($data['instructor_ids']);
+                }
+
+                return $course;
             });
         } catch (\Exception $e) {
             Log::error('Failed to create course: ' . $e->getMessage());
@@ -71,10 +86,12 @@ class CourseService
                 $course->update([
                     'course_name' => $data['course_name'],
                     'units' => $data['units'],
-                    'prerequisite_id' => $data['prerequisite_id'] ?? null,
                     'program_id' => $data['program_id'],
-                    'instructor_id' => $data['instructor_id'] ?? null,
                 ]);
+
+                if (isset($data['instructor_ids'])) {
+                    $course->instructors()->sync($data['instructor_ids']);
+                }
 
                 return $course;
             });
