@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ScheduleRequest;
 use App\Models\Course;
 use App\Models\Schedule;
+use App\Models\Instructor;
 use App\Services\ScheduleService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -46,8 +47,9 @@ class ScheduleController extends Controller
     public function create(): View
     {
         $courses = Course::orderBy('course_name')->get();
+        $instructors = Instructor::orderBy('last_name')->orderBy('first_name')->get();
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        return view('admin.schedules.create', compact('courses', 'days'));
+        return view('admin.schedules.create', compact('courses', 'instructors', 'days'));
     }
 
     /**
@@ -89,8 +91,9 @@ class ScheduleController extends Controller
     public function edit(Schedule $schedule): View
     {
         $courses = Course::orderBy('course_name')->get();
+        $instructors = Instructor::orderBy('last_name')->orderBy('first_name')->get();
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        return view('admin.schedules.edit', compact('schedule', 'courses', 'days'));
+        return view('admin.schedules.edit', compact('schedule', 'courses', 'instructors', 'days'));
     }
 
     /**

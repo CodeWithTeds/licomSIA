@@ -23,6 +23,7 @@ class ScheduleRequest extends FormRequest
     {
         return [
             'course_id' => 'required|exists:courses,course_id',
+            'instructor_id' => 'required|exists:instructors,instructor_id',
             'day' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
             'time_start' => 'required|date_format:H:i',
             'time_end' => 'required|date_format:H:i|after:time_start',
@@ -40,6 +41,8 @@ class ScheduleRequest extends FormRequest
         return [
             'course_id.required' => 'The course field is required.',
             'course_id.exists' => 'The selected course is invalid.',
+            'instructor_id.required' => 'The instructor field is required.',
+            'instructor_id.exists' => 'The selected instructor is invalid.',
             'day.required' => 'The day field is required.',
             'day.in' => 'The selected day is invalid.',
             'time_start.required' => 'The start time field is required.',

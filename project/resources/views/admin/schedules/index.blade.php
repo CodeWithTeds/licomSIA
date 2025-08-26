@@ -26,6 +26,7 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Day</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Room</th>
@@ -38,6 +39,14 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm font-medium text-gray-900">{{ $schedule->course->course_name }}</div>
                         <div class="text-xs text-gray-500">{{ $schedule->course->program->program_name }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @if($schedule->instructor)
+                            <div class="text-sm text-gray-900">{{ $schedule->instructor->first_name }} {{ $schedule->instructor->last_name }}</div>
+                            <div class="text-xs text-gray-500">{{ $schedule->instructor->department->name ?? 'No Department' }}</div>
+                        @else
+                            <div class="text-sm text-gray-500">Not Assigned</div>
+                        @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {{ $schedule->day }}

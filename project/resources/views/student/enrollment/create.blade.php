@@ -160,8 +160,8 @@
                                             <td class="py-3 px-4 border-b border-gray-200">{{ $course->units }}</td>
                                             <td class="py-3 px-4 border-b border-gray-200">{{ $course->year_level }}</td>
                                             <td class="py-3 px-4 border-b border-gray-200">
-                                                @if($course->instructor)
-                                                    {{ $course->instructor->first_name }} {{ $course->instructor->last_name }}
+                                                @if($course->instructors->isNotEmpty())
+                                                    {{ $course->instructors->pluck('full_name')->join(', ') }}
                                                 @else
                                                     TBA
                                                 @endif

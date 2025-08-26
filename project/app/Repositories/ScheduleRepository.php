@@ -16,7 +16,7 @@ class ScheduleRepository
      */
     public function getAllSchedules(int $perPage = 10): LengthAwarePaginator
     {
-        return Schedule::with('course')
+        return Schedule::with(['course', 'instructor'])
             ->orderBy('day')
             ->orderBy('time_start')
             ->paginate($perPage);
@@ -44,7 +44,7 @@ class ScheduleRepository
      */
     public function findById(int $id): ?Schedule
     {
-        return Schedule::with('course')->find($id);
+        return Schedule::with(['course', 'instructor'])->find($id);
     }
 
     /**

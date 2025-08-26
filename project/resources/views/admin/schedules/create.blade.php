@@ -19,19 +19,36 @@
         <form action="{{ route('admin.schedules.store') }}" method="POST" class="p-6">
             @csrf
             
-            <div class="mb-4">
-                <label for="course_id" class="block text-sm font-medium text-gray-700 mb-1">Course</label>
-                <select name="course_id" id="course_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 @error('course_id') border-red-500 @enderror">
-                    <option value="">Select a course</option>
-                    @foreach($courses as $course)
-                        <option value="{{ $course->course_id }}" {{ old('course_id') == $course->course_id ? 'selected' : '' }}>
-                            {{ $course->course_name }} ({{ $course->program->program_name }})
-                        </option>
-                    @endforeach
-                </select>
-                @error('course_id')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="course_id" class="block text-sm font-medium text-gray-700 mb-1">Course</label>
+                    <select name="course_id" id="course_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 @error('course_id') border-red-500 @enderror">
+                        <option value="">Select a course</option>
+                        @foreach($courses as $course)
+                            <option value="{{ $course->course_id }}" {{ old('course_id') == $course->course_id ? 'selected' : '' }}>
+                                {{ $course->course_name }} ({{ $course->program->program_name }})
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('course_id')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="instructor_id" class="block text-sm font-medium text-gray-700 mb-1">Instructor</label>
+                    <select name="instructor_id" id="instructor_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 @error('instructor_id') border-red-500 @enderror">
+                        <option value="">Select an instructor</option>
+                        @foreach($instructors as $instructor)
+                            <option value="{{ $instructor->instructor_id }}" {{ old('instructor_id') == $instructor->instructor_id ? 'selected' : '' }}>
+                                {{ $instructor->first_name }} {{ $instructor->last_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('instructor_id')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
             
             <div class="mb-4">
