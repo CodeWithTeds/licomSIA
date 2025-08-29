@@ -68,9 +68,10 @@ class Instructor extends Authenticatable
     /**
      * Get the courses taught by the instructor.
      */
-    public function courses()
+        public function courses()
     {
         return $this->belongsToMany(Course::class, 'course_instructor', 'instructor_id', 'course_id')
+            ->select('courses.*')  // This ensures we select fields from the courses table
             ->withTimestamps();
     }
 
@@ -94,7 +95,11 @@ class Instructor extends Authenticatable
 
     public function schedules()
     {
-        return $this->hasManyThrough(Schedule::class, Course::class, 'instructor_id', 'course_id', 'instructor_id', 'course_id');
+        // Get schedules through the course_instructor pivot table
+        return Schedule::join('courses', 'schedules.course_id', '=', 'courses.course_id')
+            ->join('course_instructor', 'courses.course_id', '=', 'course_instructor.course_id')
+            ->where('course_instructor.instructor_id', $this->instructor_id)
+            ->select('schedules.*');
     }
 
     public function today_schedules()

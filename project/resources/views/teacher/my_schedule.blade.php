@@ -4,15 +4,7 @@
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-gray-800">My Weekly Schedule</h1>
-        <div class="flex items-center space-x-2">
-            <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <span class="text-xl font-semibold text-gray-700">July 2024</span>
-            <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">
-                <i class="fas fa-arrow-right"></i>
-            </button>
-        </div>
+       
     </div>
 
     <div class="bg-white shadow-lg rounded-2xl overflow-hidden">

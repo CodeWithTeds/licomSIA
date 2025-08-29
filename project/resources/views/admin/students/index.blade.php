@@ -17,11 +17,60 @@
         </ol>
     </nav>
     
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Students</h1>
-        <a href="{{ route('admin.students.create') }}" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md text-sm flex items-center transition duration-150">
-            <i class="fas fa-plus mr-2"></i> Add Student
-        </a>
+    <div class="flex flex-col space-y-4 mb-6">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-gray-800">Students</h1>
+            <a href="{{ route('admin.students.create') }}" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md text-sm flex items-center transition duration-150">
+                <i class="fas fa-plus mr-2"></i> Add Student
+            </a>
+        </div>
+
+        <form method="GET" class="bg-white p-4 rounded-lg shadow-sm flex flex-wrap gap-4 items-end">
+            <div class="flex-1 min-w-[200px]">
+                <label for="program" class="block text-sm font-medium text-gray-700 mb-1">Program</label>
+                <select name="program" id="program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                    <option value="">All Programs</option>
+                    @foreach($programs as $program)
+                        <option value="{{ $program->program_id }}" {{ request('program') == $program->program_id ? 'selected' : '' }}>
+                            {{ $program->program_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="flex-1 min-w-[200px]">
+                <label for="course" class="block text-sm font-medium text-gray-700 mb-1">Course</label>
+                <select name="course" id="course" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                    <option value="">All Courses</option>
+                    @foreach($courses as $course)
+                        <option value="{{ $course->course_id }}" {{ request('course') == $course->course_id ? 'selected' : '' }}>
+                            {{ $course->course_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="flex-1 min-w-[200px]">
+                <label for="year_level" class="block text-sm font-medium text-gray-700 mb-1">Year Level</label>
+                <select name="year_level" id="year_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                    <option value="">All Year Levels</option>
+                    @for($i = 1; $i <= 4; $i++)
+                        <option value="{{ $i }}" {{ request('year_level') == $i ? 'selected' : '' }}>Year {{ $i }}</option>
+                    @endfor
+                </select>
+            </div>
+
+            <div class="flex-none">
+                <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md text-sm transition duration-150">
+                    <i class="fas fa-filter mr-2"></i> Filter
+                </button>
+                @if(request()->anyFilled(['program', 'course', 'year_level']))
+                    <a href="{{ route('admin.students.index') }}" class="ml-2 text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-times"></i> Clear
+                    </a>
+                @endif
+            </div>
+        </form>
     </div>
 
     @if(session('success'))
@@ -98,4 +147,4 @@
         });
     });
 </script>
-@endsection 
+@endsection

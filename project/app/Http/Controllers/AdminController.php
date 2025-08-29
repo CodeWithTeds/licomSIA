@@ -18,7 +18,7 @@ class AdminController extends Controller
      */
     public function showLoginForm(): View
     {
-        return view('admin.login');
+        return view('login');
     }
     
     /**
@@ -80,6 +80,6 @@ class AdminController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
     
-        return redirect('/admin/login');
+        return redirect('login');
     }
 } 

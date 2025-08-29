@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Instructor;
+use App\Models\Program;
 
 class InstructorAuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('teacher.login');
+        return view('/login');
     }
 
     public function login(Request $request)
@@ -61,12 +62,25 @@ class InstructorAuthController extends Controller
         return view('teacher.my_courses', compact('courses'));
     }
 
-    public function myStudents()
+    public function myStudents(Request $request)
     {
         /** @var \App\Models\Instructor $instructor */
         $instructor = Auth::guard('instructor')->user();
-        $students = $instructor->students()->with('program')->paginate(10);
-        return view('teacher.my_students', compact('students'));
+        $query = $instructor->students()->with('program');
+
+        // Apply filters
+        if ($request->filled('program')) {
+            $query->where('program_id', $request->program);
+        }
+
+        if ($request->filled('year_level')) {
+            $query->where('year_level', $request->year_level);
+        }
+
+        $students = $query->paginate(10)->withQueryString();
+        $programs = \App\Models\Program::orderBy('program_name')->get();
+
+        return view('teacher.my_students', compact('students', 'programs'));
     }
 
     public function mySchedule()
@@ -93,6 +107,6 @@ class InstructorAuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('teacher.login');
+        return redirect('/login');
     }
 }

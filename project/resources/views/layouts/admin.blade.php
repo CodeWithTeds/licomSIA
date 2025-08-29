@@ -158,6 +158,10 @@
                             <i class="fas fa-graduation-cap w-5 h-5 mr-3"></i>
                             <span class="text-sm font-medium">Grades</span>
                         </a>
+                        <a href="{{ route('admin.reports.deans_list') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.reports.deans_list') ? 'active bg-gray-800 text-white' : '' }}">
+                            <i class="fas fa-award w-5 h-5 mr-3"></i>
+                            <span class="text-sm font-medium">Dean's List</span>
+                        </a>
                       
                     </nav>
                 </div>
@@ -309,9 +313,9 @@
                                 <i class="fas fa-clipboard-list w-5 h-5 mr-3"></i>
                                 <span class="text-sm font-medium">Grades</span>
                             </a>
-                            <a href="#" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
-                                <i class="fas fa-file-alt w-5 h-5 mr-3"></i>
-                                <span class="text-sm font-medium">Reports</span>
+                            <a href="{{ route('admin.reports.deans_list') }}" class="nav-item flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors {{ request()->routeIs('admin.reports.deans_list') ? 'active bg-gray-800 text-white' : '' }}">
+                                <i class="fas fa-award w-5 h-5 mr-3"></i>
+                                <span class="text-sm font-medium">Dean's List</span>
                             </a>
                         </nav>
                     </div>

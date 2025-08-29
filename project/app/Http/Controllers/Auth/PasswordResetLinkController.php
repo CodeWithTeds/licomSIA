@@ -20,7 +20,7 @@ class PasswordResetLinkController extends Controller
         $request->validate(['email' => 'required|email']);
 
         $status = Password::broker('users')->sendResetLink(
-            $request->only('email')s
+            $request->only('email')
         );
 
         return $status === Password::RESET_LINK_SENT

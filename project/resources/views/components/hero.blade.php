@@ -14,12 +14,10 @@
                     A comprehensive cross-platform student information system designed specifically for Libon Community College. Streamline admissions, manage student records, and enhance administrative efficiency.
                 </p>
                 <div class="mt-8 flex flex-wrap gap-4">
-                    <a href="#features" class="px-8 py-3 bg-[#578eb7] hover:bg-[#2768bc] text-white font-medium rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
-                        Explore Features
+                    <a href="/admission" class="px-8 py-3 bg-[#578eb7] hover:bg-[#2768bc] text-white font-medium rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
+                        Apply Now
                     </a>
-                    <a href="#contact" class="px-8 py-3 bg-transparent hover:bg-[#e2e4e3] border-2 border-[#e2e4e3] text-[#e2e4e3] hover:text-[#131417] font-medium rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
-                        Contact Us
-                    </a>
+                 
                 </div>
             </div>
             <div class="lg:w-1/2 mt-10 lg:mt-0 relative">

@@ -11,10 +11,12 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\Admin\GradeController as AdminGradeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Admission\AdmissionController;
 use App\Http\Controllers\Auth\InstructorAuthController;
 use App\Http\Controllers\Teacher\GradeController;
 use App\Http\Controllers\Student\EvaluationController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 
@@ -35,10 +37,11 @@ Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
-// Public routes
+// Unified Login Routes
 Route::get('/login', function () {
-    return view('login');
+    return view('student.login');
 })->name('login');
+Route::post('/login', [\App\Http\Controllers\Auth\UnifiedLoginController::class, 'login'])->name('login.submit');
 
 // Admission routes
 Route::get('/admission', [AdmissionController::class, 'create'])->name('public.admission.create');
@@ -65,9 +68,6 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('p
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [AdminController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AdminController::class, 'login'])->name('login.submit');
-
     Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
@@ -103,6 +103,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/grades', [AdminGradeController::class, 'index'])->name('grades.index');
         Route::get('/grades/{student}', [AdminGradeController::class, 'show'])->name('grades.show');
 
+        // Reports
+        Route::get('/reports/deans-list', [AdminReportController::class, 'deansList'])->name('reports.deans_list');
+
         // Admission routes
         Route::resource('admissions', AdmissionController::class)->except(['create', 'store']);
         Route::post('admissions/{admission}/approve', [AdmissionController::class, 'approve'])->name('admissions.approve');
@@ -113,15 +116,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // Student routes
 Route::prefix('student')->name('student.')->group(function () {
-    // Public student routes
-    Route::get('/login', function () {
-        return view('student.login');
-    })->name('login');
-    Route::post('/login', [StudentController::class, 'login'])->name('login.submit');
-
     Route::get('/register', [StudentController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [StudentController::class, 'register'])->name('register.submit');
-
 
     // Protected student routes
     Route::middleware(['auth', \App\Http\Middleware\StudentMiddleware::class])->group(function () {
@@ -150,15 +146,12 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::resource('evaluations', EvaluationController::class);
 
         // Grades routes
-        Route::get('/my-grades', [StudentController::class, 'myGrades'])->name('grades.index');
+        Route::get('/my-grades', [StudentController::class, 'myGrades'])->name('my-grades');
     });
 });
 
 // Teacher routes
 Route::prefix('teacher')->name('teacher.')->group(function () {
-    Route::get('/login', [InstructorAuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [InstructorAuthController::class, 'login'])->name('login.submit');
-
     Route::middleware('teacher')->group(function () {
         Route::get('dashboard', [InstructorAuthController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [InstructorAuthController::class, 'logout'])->name('logout');

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Mail\AdmissionQualified;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Mail;
 
 class Admission extends Model
 {
@@ -69,5 +71,27 @@ class Admission extends Model
     public function student()
     {
         return $this->hasOne(Student::class, 'user_id', 'user_id');
+    }
+
+    /**
+     * Send qualification email to the student
+     */
+    public function sendQualificationEmail()
+    {
+        if ($this->email) {
+            Mail::to($this->email)->send(new AdmissionQualified($this));
+        }
+    }
+
+    /**
+     * Update application status and send email if qualified
+     */
+    public function updateStatus($status)
+    {
+        $this->update(['application_status' => $status]);
+        
+        if ($status === 'Qualified') {
+            $this->sendQualificationEmail();
+        }
     }
 }

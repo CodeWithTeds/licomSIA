@@ -81,7 +81,7 @@
             <p>This is your student dashboard. You can view your grades, admission status, and evaluate your instructors here.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-            <a href="{{ route('student.grades.index') }}" class="bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition">
+            <a href="{{ route('student.my-grades') }}" class="bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition">
                 <h3 class="text-xl font-bold">My Grades</h3>
                 <p>View your academic performance.</p>
             </a>

@@ -23,10 +23,29 @@ use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with('program')->paginate(10);
-        return view('admin.students.index', compact('students'));
+        $query = Student::with(['program', 'enrollments.courses']);
+
+        if ($request->filled('program')) {
+            $query->where('program_id', $request->program);
+        }
+
+        if ($request->filled('course')) {
+            $query->whereHas('enrollments.courses', function($q) use ($request) {
+                $q->where('course_id', $request->course);
+            });
+        }
+
+        if ($request->filled('year_level')) {
+            $query->where('year_level', $request->year_level);
+        }
+
+        $students = $query->paginate(10)->withQueryString();
+        $programs = Program::orderBy('program_name')->get();
+        $courses = Course::orderBy('course_name')->get();
+
+        return view('admin.students.index', compact('students', 'programs', 'courses'));
     }
 
     public function create()
@@ -101,7 +120,7 @@ class StudentController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         
-        return redirect()->route('student.login');
+        return redirect()->route('login');
     }
 
     public function showRegistrationForm()
@@ -457,36 +476,18 @@ class StudentController extends Controller
     public function myGrades(Request $request)
     {
         $student = Auth::user()->student;
-        $programId = $request->input('program_id');
-        $courseId = $request->input('course_id');
-        $yearLevel = $request->input('year_level');
+        $semester = $request->input('semester');
         
         $gradesQuery = Grade::with(['course.program', 'instructor'])
             ->where('student_id', $student->student_id);
         
-        if ($courseId) {
-            $gradesQuery->where('course_id', $courseId);
-        }
-        
-        if ($programId || $yearLevel) {
-            $gradesQuery->whereHas('course', function($query) use ($programId, $yearLevel) {
-                if ($programId) {
-                    $query->where('program_id', $programId);
-                }
-                
-                if ($yearLevel) {
-                    $query->where('year_level', $yearLevel);
-                }
-            });
+        if ($semester) {
+            $gradesQuery->where('semester', $semester);
         }
         
         $grades = $gradesQuery->get()->groupBy('school_year');
         
-        // Get all programs and courses for filter dropdowns
-        $programs = Program::all();
-        $courses = Course::all();
-        
-        return view('student.grades.index', compact('student', 'grades', 'programs', 'courses'));
+        return view('student.grades.index', compact('student', 'grades'));
     }
 
     private function getProgramName($programId)
@@ -498,4 +499,4 @@ class StudentController extends Controller
         $program = Program::find($programId);
         return $program ? $program->program_name : 'Unknown Program';
     }
-} 
+}

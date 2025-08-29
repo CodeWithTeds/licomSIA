@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login - LicomSIA</title>
+    <title>LicomSIA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -24,7 +24,7 @@
         <div class="p-8">
             <div class="text-center mb-8">
                 <img src="{{ asset('images/logo.png') }}" alt="LicomSIA Logo" class="h-16 mx-auto mb-2">
-                <h1 class="text-2xl font-bold text-gray-800">Student Login</h1>
+                <h1 class="text-2xl font-bold text-gray-800">LicomSIA Login</h1>
                 <p class="text-gray-500 text-sm">Access your Libon Community College account</p>
             </div>
             
@@ -40,11 +40,12 @@
                 </div>
             @endif
             
-            <form action="{{ route('student.login.submit') }}" method="POST" class="space-y-6">
+            <form id="loginForm" action="{{ route('login.submit') }}" method="POST" class="space-y-6">
                 @csrf
                 
                 <div class="space-y-4">
                     <div>
+                        
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-envelope text-gray-400"></i>
@@ -102,12 +103,16 @@
                 
                 <div class="text-center text-sm">
                     <span class="text-gray-500">Don't have an account?</span>
-                    <a href="{{ route('student.register') }}" class="font-medium text-primary hover:text-blue-800 ml-1 transition duration-150">
+                    <a href="{{ route('student.register') }}" class="font-medium text-primary hover:text-blue-800 ml-1 transition duration-150 student-only">
                         Register now
                     </a>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+       
+    </script>
 </body>
 </html> 

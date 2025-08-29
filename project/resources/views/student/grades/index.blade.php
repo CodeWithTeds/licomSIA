@@ -5,57 +5,7 @@
 @section('content')
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">My Grades</h1>
-    
-    <div class="mb-6 bg-white p-4 shadow-md rounded-lg">
-        <form action="{{ route('student.grades') }}" method="GET" class="flex flex-wrap gap-4">
-            <div class="w-full md:w-auto">
-                <label for="program_id" class="block text-sm font-medium text-gray-700 mb-1">Program</label>
-                <select name="program_id" id="program_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                    <option value="">All Programs</option>
-                    @foreach($programs as $program)
-                        <option value="{{ $program->program_id }}" {{ request('program_id') == $program->program_id ? 'selected' : '' }}>
-                            {{ $program->program_name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            
-            <div class="w-full md:w-auto">
-                <label for="course_id" class="block text-sm font-medium text-gray-700 mb-1">Course</label>
-                <select name="course_id" id="course_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                    <option value="">All Courses</option>
-                    @foreach($courses as $course)
-                        <option value="{{ $course->course_id }}" {{ request('course_id') == $course->course_id ? 'selected' : '' }}>
-                            {{ $course->course_name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            
-            <div class="w-full md:w-auto">
-                <label for="year_level" class="block text-sm font-medium text-gray-700 mb-1">Year Level</label>
-                <select name="year_level" id="year_level" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                    <option value="">All Years</option>
-                    @for($i = 1; $i <= 4; $i++)
-                        <option value="{{ $i }}" {{ request('year_level') == $i ? 'selected' : '' }}>
-                            Year {{ $i }}
-                        </option>
-                    @endfor
-                </select>
-            </div>
-            
-            <div class="flex items-end">
-                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-                    Filter
-                </button>
-                @if(request()->anyFilled(['program_id', 'course_id', 'year_level']))
-                    <a href="{{ route('student.grades') }}" class="ml-2 text-gray-600 hover:text-gray-900 self-center">
-                        Clear
-                    </a>
-                @endif
-            </div>
-        </form>
-    </div>
+   
 
     @forelse ($grades as $schoolYear => $gradesByYear)
         <div class="mb-8">

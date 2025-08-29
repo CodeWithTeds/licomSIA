@@ -34,8 +34,14 @@ class AdmissionController extends Controller
 
     public function approve(Admission $admission)
     {
-        $this->admissionService->approveAdmission($admission);
-        return redirect()->route('admin.admissions.index')->with('success', 'Admission approved successfully.');
+        try {
+            $this->admissionService->approveAdmission($admission);
+            return redirect()->route('admin.admissions.index')
+                ->with('success', 'Admission approved successfully. Qualification email has been sent.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.admissions.index')
+                ->with('error', 'Error approving admission: ' . $e->getMessage());
+        }
     }
 
     public function reject(Admission $admission)

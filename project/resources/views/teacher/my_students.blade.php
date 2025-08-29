@@ -3,6 +3,38 @@
 @section('header', 'My Students')
 
 @section('content')
+    <div class="mb-4">
+        <form method="GET" class="flex gap-4">
+            <div class="flex-1">
+                <label for="program" class="block text-sm font-medium text-gray-700 mb-1">Program</label>
+                <select name="program" id="program" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                    <option value="">All Programs</option>
+                    @foreach($programs as $program)
+                        <option value="{{ $program->program_id }}" {{ request('program') == $program->program_id ? 'selected' : '' }}>
+                            {{ $program->program_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="flex-1">
+                <label for="year_level" class="block text-sm font-medium text-gray-700 mb-1">Year Level</label>
+                <select name="year_level" id="year_level" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                    <option value="">All Year Levels</option>
+                    @foreach([1, 2, 3, 4] as $year)
+                        <option value="{{ $year }}" {{ request('year_level') == $year ? 'selected' : '' }}>
+                            {{ $year }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="flex items-end">
+                <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Filter
+                </button>
+            </div>
+        </form>
+    </div>
+
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
@@ -44,4 +76,4 @@
             {{ $students->links() }}
         </div>
     </div>
-@endsection 
+@endsection
