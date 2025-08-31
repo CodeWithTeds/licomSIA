@@ -106,33 +106,6 @@
         <div class="bg-white rounded-lg shadow-sm p-6">
             <h3 class="text-lg font-semibold text-dark mb-4">Quick Actions</h3>
             <div class="space-y-3">
-                <a href="#" class="flex items-center p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition">
-                    <div class="rounded-full bg-blue-500 text-white p-2 mr-3">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <span class="font-medium">Add New Student</span>
-                </a>
-                    <a href="{{ route('admin.instructors.create') }}" class="flex items-center p-3 bg-green-50 hover:bg-green-100 rounded-lg transition">
-                        <div class="bg-green-100 text-green-600 rounded-full p-2 mr-3">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-medium">Add Instructor</h4>
-            
-                        </div>
-                    </a>
-                <a href="#" class="flex items-center p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition">
-                    <div class="rounded-full bg-purple-500 text-white p-2 mr-3">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <span class="font-medium">Create New Course</span>
-                </a>
-                <a href="#" class="flex items-center p-3 bg-yellow-50 hover:bg-yellow-100 rounded-lg transition">
-                    <div class="rounded-full bg-yellow-500 text-white p-2 mr-3">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <span class="font-medium">Manage Schedule</span>
-                </a>
                 <a href="{{ route('admin.students.create') }}" class="flex items-center p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition">
                     <div class="rounded-full bg-blue-500 text-white p-2 mr-3">
                         <i class="fas fa-user-plus"></i>
