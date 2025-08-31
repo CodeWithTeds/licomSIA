@@ -101,12 +101,7 @@
                     Sign in
                 </button>
                 
-                <div class="text-center text-sm">
-                    <span class="text-gray-500">Don't have an account?</span>
-                    <a href="{{ route('student.register') }}" class="font-medium text-primary hover:text-blue-800 ml-1 transition duration-150 student-only">
-                        Register now
-                    </a>
-                </div>
+                
             </form>
         </div>
     </div>
