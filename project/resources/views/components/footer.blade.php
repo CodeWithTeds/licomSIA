@@ -29,7 +29,7 @@
                     <li><a href="#home" class="hover:text-[#2768bc]">Home</a></li>
                     <li><a href="#about" class="hover:text-[#2768bc]">About</a></li>
                     <li><a href="#features" class="hover:text-[#2768bc]">Features</a></li>
-                    <li><a href="#contact" class="hover:text-[#2768bc]">Contact</a></li>
+
                 </ul>
             </div>
             

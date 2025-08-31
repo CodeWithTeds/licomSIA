@@ -6,9 +6,14 @@
 <div class="container mx-auto px-6 py-8">
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-semibold text-gray-900">Dean's List Report</h1>
-        <a href="{{ route('admin.dashboard') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500">
-            <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
-        </a>
+        <div class="flex space-x-4">
+            <a href="{{ route('admin.reports.deans_list', ['download' => true]) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500">
+                <i class="fas fa-download mr-2"></i>Download PDF
+            </a>
+            <a href="{{ route('admin.dashboard') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+            </a>
+        </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
