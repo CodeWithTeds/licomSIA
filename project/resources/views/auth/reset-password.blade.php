@@ -40,7 +40,7 @@
         </form>
 
         <div class="text-center mt-4">
-            <a href="{{ route('student.login') }}" class="text-blue-600 hover:underline">Back to Login</a>
+            <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Back to Login</a>
         </div>
     </div>
  </body>

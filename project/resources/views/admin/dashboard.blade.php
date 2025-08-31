@@ -82,7 +82,10 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @forelse ($recentEnrollments as $student)
                             <tr class="hover:bg-gray-50">
-                                <td class="py-3 px-4 text-sm text-gray-900">{{ $student->first_name }} {{ $student->last_name }}</td>
+                                <td class="py-3 px-4 text-sm text-gray-900">
+                                    {{ $student->first_name }} {{ $student->last_name }}
+                                    <div class="text-xs text-gray-500 mt-1">Enrolled: {{ $student->enrollments->first()->date_enrolled->format('M d, Y') }}</div>
+                                </td>
                                 <td class="py-3 px-4 text-sm text-gray-900">{{ $student->program->program_name }}</td>
                                 <td class="py-3 px-4 text-sm text-gray-500">
                                     <a href="{{ route('admin.grades.show', $student) }}" class="text-blue-500 hover:underline">Grades</a>
