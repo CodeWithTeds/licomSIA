@@ -60,9 +60,9 @@ class AdminController extends Controller
         $courseCount = Course::count();
         $programCount = Program::count();
         $recentEnrollments = Student::whereHas('enrollments', function($query) {
-            $query->where('status', 'Enrolled')->latest();
+            $query->where('status', 'Enrolled');
         })->with(['program', 'enrollments' => function($query) {
-            $query->where('status', 'Enrolled')->latest();
+            $query->where('status', 'Enrolled')->latest('date_enrolled');
         }])->latest()->take(5)->get();
 
         return view('admin.dashboard', compact(
