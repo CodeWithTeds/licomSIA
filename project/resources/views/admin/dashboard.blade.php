@@ -133,7 +133,31 @@
                     </div>
                     <span class="font-medium">Manage Schedule</span>
                 </a>
-                <a href="#" class="flex items-center p-3 bg-red-50 hover:bg-red-100 rounded-lg transition">
+                <a href="{{ route('admin.students.create') }}" class="flex items-center p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition">
+                    <div class="rounded-full bg-blue-500 text-white p-2 mr-3">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <span class="font-medium">Add New Student</span>
+                </a>
+                <a href="{{ route('admin.instructors.create') }}" class="flex items-center p-3 bg-green-50 hover:bg-green-100 rounded-lg transition">
+                    <div class="rounded-full bg-green-500 text-white p-2 mr-3">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <span class="font-medium">Add Instructor</span>
+                </a>
+                <a href="{{ route('admin.courses.create') }}" class="flex items-center p-3 bg-yellow-50 hover:bg-yellow-100 rounded-lg transition">
+                    <div class="rounded-full bg-yellow-500 text-white p-2 mr-3">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <span class="font-medium">Create New Course</span>
+                </a>
+                <a href="{{ route('admin.schedules.index') }}" class="flex items-center p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition">
+                    <div class="rounded-full bg-purple-500 text-white p-2 mr-3">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <span class="font-medium">Manage Schedule</span>
+                </a>
+                <a href="{{ route('admin.reports.deans_list') }}" class="flex items-center p-3 bg-red-50 hover:bg-red-100 rounded-lg transition">
                     <div class="rounded-full bg-red-500 text-white p-2 mr-3">
                         <i class="fas fa-file-alt"></i>
                     </div>
@@ -142,4 +166,4 @@
             </div>
         </div>
     </div>
-@endsection 
+@endsection
