@@ -38,24 +38,10 @@ class AdmissionService
 
             // Check if user already exists with this email
             $user = User::where('email', $admission->email)->first();
-            $generatedPassword = null;
-            
-            if (!$user) {
-                // Create a new user only if one doesn't exist
-                $generatedPassword = str()->password(10);
-                $user = User::create([
-                    'name' => $admission->first_name . ' ' . $admission->last_name,
-                    'email' => $admission->email,
-                    'password' => Hash::make($generatedPassword),
-                    'role' => 'student',
-                ]);
-            }
-
-            // Generate a new password for the student account
             $generatedPassword = str()->password(10);
             
-            // Create or update user account
             if (!$user) {
+                // Create a new user if one doesn't exist
                 $user = User::create([
                     'name' => $admission->first_name . ' ' . $admission->last_name,
                     'email' => $admission->email,
@@ -112,4 +98,4 @@ class AdmissionService
 
         return $admission;
     }
-} 
+}

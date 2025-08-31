@@ -90,7 +90,7 @@ class Admission extends Model
     {
         $this->update(['application_status' => $status]);
         
-        if ($status === 'Qualified') {
+        if ($status === 'approved') {
             $this->sendQualificationEmail();
         }
     }
