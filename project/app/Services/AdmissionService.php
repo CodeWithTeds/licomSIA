@@ -57,12 +57,22 @@ class AdmissionService
             }
 
             // Send the account details email first
-            Mail::to($admission->email)->send(new StudentAccountCreated($user, $generatedPassword));
-            Log::info('Sent account details to: ' . $admission->email);
+            try {
+                Mail::to($admission->email)->send(new StudentAccountCreated($user, $generatedPassword));
+                Log::info('Successfully sent account details to: ' . $admission->email);
+            } catch (\Exception $e) {
+                Log::error('Failed to send account details email: ' . $e->getMessage());
+                Log::error($e->getTraceAsString());
+            }
 
             // Then send the qualification email
-            $admission->sendQualificationEmail();
-            Log::info('Sent qualification email to: ' . $admission->email);
+            try {
+                $admission->sendQualificationEmail();
+                Log::info('Successfully sent qualification email to: ' . $admission->email);
+            } catch (\Exception $e) {
+                Log::error('Failed to send qualification email: ' . $e->getMessage());
+                Log::error($e->getTraceAsString());
+            }
 
             // Check if student record already exists
             $studentExists = Student::where('user_id', $user->id)->exists();

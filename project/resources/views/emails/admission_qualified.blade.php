@@ -90,7 +90,7 @@
         </ul>
 
         <center>
-            <a href="{{ route('student.login') }}" class="button">Access Student Portal</a>
+            <a href="{{ route('login') }}" class="button">Access Student Portal</a>
         </center>
     </div>
 

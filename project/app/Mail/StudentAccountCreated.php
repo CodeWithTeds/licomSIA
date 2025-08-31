@@ -28,7 +28,7 @@ class StudentAccountCreated extends Mailable
                 'name' => $this->user->name,
                 'email' => $this->user->email,
                 'password' => $this->plainPassword,
-                'loginUrl' => route('student.login'),
+                'loginUrl' => route('login'),
             ]);
     }
 }

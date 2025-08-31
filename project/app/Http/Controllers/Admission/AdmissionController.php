@@ -39,8 +39,16 @@ class AdmissionController extends Controller
             return redirect()->route('admin.admissions.index')
                 ->with('success', 'Admission approved successfully. Qualification email has been sent.');
         } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Admission approval failed: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error($e->getTraceAsString());
+            
+            $errorMessage = 'Error approving admission';
+            if (app()->environment('local', 'development')) {
+                $errorMessage .= ': ' . $e->getMessage();
+            }
+            
             return redirect()->route('admin.admissions.index')
-                ->with('error', 'Error approving admission: ' . $e->getMessage());
+                ->with('error', $errorMessage);
         }
     }
 
