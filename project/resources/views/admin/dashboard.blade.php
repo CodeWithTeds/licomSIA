@@ -67,9 +67,9 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Recently Enrolled Students -->
+        <!-- Enrolled Students -->
         <div class="col-span-2 bg-white rounded-lg shadow-sm p-6">
-            <h3 class="text-lg font-semibold text-dark mb-4">Recently Enrolled Students</h3>
+            <h3 class="text-lg font-semibold text-dark mb-4">Enrolled Students</h3>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -80,7 +80,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse ($recentEnrollments as $student)
+                        @forelse ($enrolledStudents as $student)
                             <tr class="hover:bg-gray-50">
                                 <td class="py-3 px-4 text-sm text-gray-900">
                                     {{ $student->first_name }} {{ $student->last_name }}
@@ -97,7 +97,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center py-4">No recent enrollments.</td>
+                                <td colspan="3" class="text-center py-4">No enrolled students.</td>
                             </tr>
                         @endforelse
                     </tbody>

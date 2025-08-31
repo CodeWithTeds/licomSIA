@@ -83,8 +83,8 @@ class EnrollmentService
                     'status' => 'Approved'
                 ]);
                 
-                // You could also update the student status if needed
-                // $enrollment->student->update(['status' => 'Enrolled']);
+                // Update student status to Enrolled
+                $enrollment->student->update(['status' => 'Enrolled']);
                 
                 return $enrollment;
             });
